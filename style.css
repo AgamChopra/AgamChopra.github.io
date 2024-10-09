@@ -3,41 +3,43 @@ body {
     margin: 0;
     padding: 0;
     background-color: #f4f4f4;
+    font-size: 0.7rem; /* Set base font size, can adapt to screen */
 }
 
 .container {
     display: flex;
     height: 100vh;
+    flex-direction: column; /* Stack items for smaller screens */
 }
 
 .left-column {
-    width: 250px;
+    width: 100vw; /* Width will now scale with screen size */
     background-color: #282c34;
     color: white;
-    padding: 20px;
-    text-align: center;
+    padding: 1rem;
+    text-align: left;
 }
 
 .left-column img.profile-pic {
-    width: 150px;
+    width: 7rem; /* Adjust size relative to base */
     border-radius: 50%;
-    margin-bottom: 20px;
+    margin-bottom: 1rem;
 }
 
 .left-column h1 {
-    font-size: 1.8em;
-    margin-bottom: 10px;
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
 }
 
 .left-column p {
-    font-size: 1.1em;
-    margin-bottom: 10px;
+    font-size: 1rem;
+    margin-bottom: 0.5rem;
 }
 
 .left-column p a {
     color: white;
-    font-size: 1.5em;
-    margin-right: 10px;
+    font-size: 1.2rem;
+    margin-right: 0.5rem;
     text-decoration: none;
 }
 
@@ -47,7 +49,7 @@ body {
 
 .right-column {
     flex-grow: 1;
-    padding: 20px;
+    padding: 1rem;
     background-color: #fff;
 }
 
@@ -59,9 +61,10 @@ body {
 .tab-button {
     background-color: #ddd;
     border: none;
-    padding: 10px 20px;
+    padding: 0.75rem 1.5rem;
     cursor: pointer;
     transition: background-color 0.3s ease;
+    font-size: 1rem;
 }
 
 .tab-button:hover {
@@ -75,10 +78,104 @@ body {
 
 .tab-content {
     display: none;
-    padding: 20px 0;
+    padding: 1rem 0;
+}
+
+.tab-content-education {
+    font-size: 1.1rem;
 }
 
 .tab-content h2 {
     margin-top: 0;
+    font-size: 1.3rem;
+}
+
+#repo-list {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* Create 3 columns */
+    gap: 20px; /* Space between grid items */
+}
+
+.repo-item {
+    background-color: #f4f4f4;
+    padding: 15px;
+    border-radius: 8px;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.repo-item img {
+    width: 100%;
+    max-width: 200px;
+    max-height: 150px;
+    border-radius: 8px;
+    margin-bottom: 10px;
+}
+
+.repo-item a {
+    text-decoration: none;
+    color: #61dafb;
+    font-size: 1.2rem;
+    display: block;
+    margin-bottom: 10px;
+}
+
+.repo-item p {
+    font-size: 1rem;
+    color: #333;
+}
+
+
+/* Responsive: For screens smaller than 768px */
+@media (max-width: 768px) {
+    .education {
+      font-size: 2rem;
+    }
+    .container {
+        flex-direction: row; /* Go back to side-by-side layout */
+    }
+
+    .left-column {
+        width: 250px; /* Set larger width for larger screens */
+    }
+
+    .left-column img.profile-pic {
+        width: 150px; /* Larger profile pic */
+    }
+
+    .tab-button {
+        font-size: 1rem;
+        padding: 10px 20px;
+    }
+
+    .tab-content h2 {
+        font-size: 1.5rem;
+    }
+    #repo-list {
+        grid-template-columns: 1fr; /* Single column for smaller screens */
+    }
+}
+
+/* Responsive: For screens between 768px and 1024px */
+@media (min-width: 768px) and (max-width: 1024px) {
+    .container {
+        flex-direction: column;
+    }
+
+    .left-column {
+        width: 100%;
+    }
+
+    .tab-button {
+        font-size: 0.8rem;
+        padding: 8px 12px;
+    }
+
+    .tab-content h2 {
+        font-size: 1.2rem;
+    }
+    #repo-list {
+        grid-template-columns: repeat(2, 1fr); /* Two columns for medium screens */
+    }
 }
 
