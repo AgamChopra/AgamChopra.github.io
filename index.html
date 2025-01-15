@@ -6,103 +6,158 @@
     <title>Agam Chopra</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #121212;
+            color: #f4f4f4;
+        }
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 2rem;
+        }
+        .profile-pic {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            margin-bottom: 1rem;
+        }
+        h1 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+        .button {
+            display: inline-block;
+            margin: 0.5rem;
+            padding: 10px 20px;
+            background-color: #61dafb;
+            color: #121212;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .button:hover {
+            background-color: #21a1f1;
+        }
+        .content-section {
+            width: 100%;
+            max-width: 800px;
+            margin-top: 2rem;
+            padding: 1rem;
+            background-color: #1e1e1e;
+            border-radius: 8px;
+        }
+        .content-section h2 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+        .content-section p {
+            font-size: 1rem;
+            line-height: 1.5;
+            margin-bottom: 1rem;
+        }
+    </style>
 </head>
-
 <body>
     <div class="container">
-        <!-- Left Column -->
-        <div class="left-column">
-            <img src="agam.jpg" alt="Agam Chopra" class="profile-pic">
-            <h1>Agam Chopra</h1>
-            <p>
-        <a href="mailto:achopra4@uw.edu" target="_blank">
-            <i class="fas fa-envelope"></i>
-        </a>
-        <a href="https://github.com/AgamChopra" target="_blank">
-            <i class="fab fa-github"></i>
-        </a>
+        <img src="agam.jpg" alt="Agam Chopra" class="profile-pic">
+        <h1>Agam Chopra</h1>
+        <div>
+            <a href="Agam_Chopra_resume.pdf" class="button" download>
+                <i class="fas fa-file-download"></i> Download Resume
+            </a>
+            <a href="https://github.com/AgamChopra" class="button" target="_blank">
+                <i class="fab fa-github"></i> GitHub
+            </a>
+            <a href="mailto:achopra4@uw.edu" class="button">
+                <i class="fas fa-envelope"></i> Email
+            </a>
+        </div>
+
+        <div class="content-section">
+            <h2>Work Experience</h2>
+             <p>
+      <b>Doctoral Student</b>
+      <br>KurtLab, University of Washington, Seattle, WA, USA
+      <br>Sep 2022 - present<br>
+      <ul>
+          <li>Created open-source packages and tools for easy integration of medical data processing pipelines with gradient friendly PyTorch implementations for the medical AI community</li>
+          <li>Experience working with multi-modal datasets of image, 3D scans, temporal scans, text, and other tabular metadata for training cross-modal generative AI algorithms</li>
+          <li>Participated and achieved competitive scores in 2022, 2023, and 2024 Brain Tumor Sequence challenges, for 3D image synthesis, tumor classification, and pre-post operative registration</li>
+          <li>Researching novel Generative AI frameworks for cross-modal 3D medical image synthesis, focusing on Synthetic Tau-PET and Compression-Synthesis techniques to streamline image synthesis for clinical applications</li>
+          <li>Successfully obtained funding from competitive Amazon research grant and internal Data Science grant at the University of Washington for investigating novel data-driven research proposals</li>
+          <li>Collaborated on Amplified 4D MRI and AFLOW projects to enhance iterative physics algorithms with the aid of artificial intelligence, optimizing computational efficiency</li>
+      </ul>
+    </p>
+
+    <p>
+      <b>Graduate Teaching Assistant</b>
+      <br>University of Washington, Seattle, WA, USA
+      <br>Jan 2023 - present<br>
+      <ul>
+        <li>Instructed 1 quarter of ME535 and 3 quarters of ME230 to a class of 200 students, focusing on application of computational techniques in engineering by delivering lectures and hands-on lab sessions in Python, C, and C++, emphasizing algorithm development and problem-solving techniques</li>
+        <li>Taught core mathematical concepts, including numerical methods, linear algebra, and differential equations, foundational to the courses</li>
+      </ul>
+    </p>
+
+    <p>
+      <b>Research Assistant</b>
+      <br>KurtLab, Stevens Institute of Technology, Hoboken, NJ, USA
+      <br>Jan 2021 - Jan 2022<br>
+      <ul>
+          <li>Researched, tested, and implemented deep learning-based 4D spatial-temporal image registration algorithms to accurately extrapolate displacement fields of 3D aMRI time sequences using Python and MATLAB</li>
+          <li>Theorized a novel deep learning-based automatic brain morphology algorithm to accurately estimate the morphology of the target region of a brain scan for any patient sample</li>
+      </ul>
+    </p>
+
+     <p>
+      <b>Software Developer I, II</b>
+      <br>Reindeer Shuttle, INC, West Lafayette, IN, USA
+      <br>May 2018 - Jun 2020<br>
+      <ul>
+          <li>Optimized the company's website using Google Analytics, PWA, and UI design principles</li>
+          <li>Conducted data analysis to identify trends and correlations for cost-effective fleet operations</li>
+          <li>Presented data-driven reports using Google Analytics, Python, and Excel</li>
+      </ul>
     </p>
         </div>
 
-        <!-- Right Column -->
-        <div class="right-column">
-            <div class="tabs">
-                <button class="tab-button" onclick="openTab(event, 'education')" id="defaultTab">Education</button>
-                <button class="tab-button" onclick="openTab(event, 'work-experience')">Work Experience</button>
-                <button class="tab-button" onclick="openTab(event, 'research')">Research</button>
-                <button class="tab-button" onclick="openTab(event, 'projects')">Projects</button>
-            </div>
-
-            <div id="education" class="tab-content">
-            <div id="education" class="tab-content-education">
-                <h2>Education</h2>
-                <p><strong>Ph.D. in Mechanical Engineering (Deep Learning & Computer Vision)</strong><br>
+        <div class="content-section">
+            <h2>Education</h2>
+            <p><strong>Ph.D. in Mechanical Engineering (Deep Learning & Computer Vision)</strong><br>
                     University of Washington, Seattle, WA (2022 - present)</p>
                 <p><strong>M.S. in Computer Science (Machine Learning)</strong><br>
                     Stevens Institute of Technology, Hoboken, NJ (2020 - 2022)</p>
                 <p><strong>B.S. in Physics</strong><br>
                     Purdue University, West Lafayette, IN (2015 - 2020)</p>
-                    </div>
-            </div>
+        </div>
 
-    <div id="work-experience" class="tab-content">
-    <h2>Work Experience</h2>
-    
-    <h3>Graduate Research Assistant</h3>
-    <p>KurtLab, University of Washington, Seattle, WA, USA</p>
-    <ul>
-        <li>Participated and achieved competitive scores in 2022 and 2023 Brain Tumor Sequence challenges.</li>
-        <li>Researching novel Generative AI frameworks for cross-modal 3D medical image synthesis, focusing on Synthetic Tau-PET and Compression-Synthesis techniques to streamline image synthesis for clinical applications.</li>
-        <li>Successfully obtained funding from competitive Amazon research grant and internal Data Science grant at the University of Washington for investigating novel data-driven research proposals.</li>
-        <li>Collaborated on Amplified 4D MRI and AFLOW projects to enhance iterative physics algorithms with the aid of artificial intelligence, optimizing computational efficiency.</li>
-        <li>Spearheading AI-driven Magnetic Resonance Elastography (MRE) Inversion project aimed at comprehending the non-linear physics of inversion algorithms and optimizing MRE pipelines to enhance efficiency in clinical applications.</li>
-    </ul>
-
-    <h3>Graduate Teaching Assistant</h3>
-    <p>University of Washington, Seattle, WA, USA</p>
-    <ul>
-        <li>Instructed 3 quarters of ME230 to a class of 200 students, prepared and graded course materials, conducted office hours, taught Mathematics and Physics foundational to the course, and graded exams.</li>
-    </ul>
-
-    <h3>Research Assistant</h3>
-    <p>KurtLab, Stevens Institute of Technology, Hoboken, NJ, USA</p>
-    <ul>
-        <li>Researched, tested, and implemented deep learning-based 4D spatial-temporal image registration algorithms to accurately extrapolate displacement fields of 3D aMRI time sequences using Python and MATLAB.</li>
-        <li>Theorized a novel deep learning-based automatic brain morphology algorithm to accurately estimate the morphology of the target region of a brain scan for any patient sample.</li>
-    </ul>
-
-    <h3>Software Developer I, II</h3>
-    <p>Reindeer Shuttle, INC, West Lafayette, IN, USA</p>
-    <ul>
-        <li>Optimized the company's website using Google Analytics, PWA, and UI design principles.</li>
-        <li>Conducted data analysis to identify trends and correlations for cost-effective fleet operations.</li>
-        <li>Presented data-driven reports using Google Analytics, Python, and Excel.</li>
-    </ul>
-
-    <h2>Skills</h2>
-    <ul>
-        <li><strong>Technological Exposure:</strong> Python, PyTorch, Git Version Control, High Performance Computing (HPC), C++, CUDA, Tableau, Azure, AWS, GCP.</li>
-        <li><strong>Theoretical Understanding:</strong> Machine Learning, Computer Vision, Generative AI, Physics, Mathematics, Data Analysis, Robotics, Medical Imaging.</li>
-        <li><strong>Academic/Professional Skills:</strong> Academic Research, Academic Publishing, Grant Writing, University Teaching, MLOps, DevOps.</li>
-        <li><strong>OS Familiarity:</strong> Linux, Windows.</li>
-    </ul>
-</div>
-
-
-            <div id="research" class="tab-content">
-                <h2>Research</h2>
-                <p>Research in Generative AI, Medical Imaging, 4D MRI, and AI-driven Magnetic Resonance Elastography...</p>
-            </div>
-
-            <div id="projects" class="tab-content">
-    <h2>Projects</h2>
-    <div id="repo-list"></div>
-</div>
-
+        <div class="content-section">
+            <h2>Publications</h2>
+             <p><ol>
+                  <li><strong>Chopra, A. S.</strong>, et al. (Under review). **Disentangled VQ-VAE for explainable Tau-PET synthesis from multi-modal MRI: A robust and non-invasive approach for Alzheimer’s
+                  disease detection and localization. Submitted to the Medical Imaging with Deep Learning (MIDL) 2025 Conference</li>
+                  <li><strong>Chopra, A. S.</strong>, Heras Rivera, J. E., Ren, T., Oswal, H., Pan, Y., Sordo, Z., Walters, S., Henry, W., Mohammadi, H., Olson, R., Rezayaraghi, F., Lam, T., Jaikanth, A.,
+                  Kancharla, P., Ruzevick, J., Ushizima, D., & Kurt, M. (Under review). Medical Image Inpainting using Efficient Transformer and Fourier UNet. Paper submitted for BRATS
+                  2024</li>
+                  <li>Abderezaei, J., Pionteck, <strong>A., Chopra</strong>, A., & Kurt, M. (2024). 3D Inception-Based TransMorph: Pre- and Post-operative Multi-contrast MRI Registration in Brain Tumors.
+                  Brainlesion: Glioma, Multiple Sclerosis, Stroke and Traumatic Brain Injuries</li>
+                  <li>Ren, T., Honey, E., Rebala, H., Sharma, <strong>A., Chopra</strong>, A., & Kurt, M. (2023). An optimization framework for processing and transfer learning for the brain tumor
+                  segmentation. International Challenge on Cross-Modality Domain Adaptation for Medical Imaging</li>
+                  <li>Ren, T., Sharma, A., Rivera, J. E. H., Rebala, H., Honey, E., <strong>Chopra, A.</strong>, & Kurt, M. (2024). Re-DiffiNet: Modeling discrepancy in tumor segmentation using diffusion
+                  models. Medical Imaging with Deep Learning</li>
+                  <li>Rivera, J. E. H., <strong>Chopra, A. S.</strong>, Ren, T., Oswal, H., Pan, Y., Sordo, Z., Walters, S., & Kurt, M. (2024). An Ensemble Approach for Brain Tumor Segmentation and Synthesis.
+                  arXiv preprint arXiv:2411.17617</li>
+                </ol></p>
         </div>
     </div>
-
-    <script src="script.js"></script>
 </body>
 </html>
 
