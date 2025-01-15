@@ -14,11 +14,21 @@
             background-color: #121212;
             color: #f4f4f4;
         }
+        .fixed-background {
+            background-image: url('background.png'); /* Replace with your image path */
+            background-attachment: fixed;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+            min-height: 400vh;
+            min-width: 100vw;
+            backdrop-filter: blur(5px);
+        }
         .container {
             display: flex;
             flex-direction: column;
             align-items: center;
-            padding: 2rem;
+            padding-top: 2rem;
         }
         .profile-pic {
             width: 170px;
@@ -51,7 +61,8 @@
             max-width: 800px;
             margin-top: 2rem;
             padding: 1rem;
-            background-color: #1e1e1e;
+            background-color: rgba(85, 85, 85, 0.7); /* White background with 70% opacity */
+            backdrop-filter: blur(5px);
             border-radius: 8px;
         }
         .content-section h2 {
@@ -79,7 +90,9 @@
         }
     </style>
 </head>
+
 <body>
+<div class="fixed-background">
     <div class="container">
         <img src="agam_1.png" alt="Agam Chopra" class="profile-pic">
         <h1>Agam Chopra</h1>
@@ -202,7 +215,10 @@
               Developed real-time AI simulations for complex organism evolution in dynamic environments. Implemented 
             </p>
         </div>
-         <footer>
+        </div>
+        
+    </div>
+     <footer>
          <p>
             <img src="agam.jpg" alt="Agam Chopra" class="footer-pic">
          </p>
@@ -210,7 +226,6 @@
             &copy; 2016-2025 Agam Chopra. All rights reserved.
          </p>
         </footer>
-    </div>
 </body>
 </html>
 
