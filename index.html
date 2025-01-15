@@ -7,91 +7,127 @@
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
     <style>
-        body {
-            font-family: 'Arial', sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #121212;
-            color: #f4f4f4;
-        }
-        .fixed-background {
-            background-image: url('background_1.png'); /* Replace with your image path */
-            background-attachment: fixed;
-            background-position: center;
-            background-repeat: no-repeat;
-            background-size: cover;
-            min-height: 400vh;
-            min-width: 100vw;
-            background-color: rgba(155, 155, 155, 0.5); /* White background with 70% opacity */
-            backdrop-filter: blur(5px);
-        }
-        .container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding-top: 2rem;
+    body {
+        background: linear-gradient(135deg, #121212 25%, #1e1e1e 25%, #1e1e1e 50%, #121212 50%, #121212 75%, #1e1e1e 75%, #1e1e1e 100%);
+        background-size: 10px 10px; /* Creates a small grid-like texture */
+        font-family: 'Arial', sans-serif;
+        margin: 0;
+        padding: 0;
+        color: #f4f4f4;
+    }
+    .container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 2rem 1rem;
+    }
+    .profile-pic {
+        width: 150px;
+        height: 150px;
+        border-radius: 50%;
+        margin-bottom: 1rem;
+    }
+    h1 {
+        font-size: 1.8rem;
+        margin-bottom: 1rem;
+        text-align: center;
+    }
+    .button {
+        margin: 0.5rem;
+        padding: 10px 20px;
+        background-color: rgba(85, 85, 85, 0.7);
+        backdrop-filter: blur(5px);
+        color: #fff;
+        text-decoration: none;
+        border-radius: 5px;
+        font-weight: bold;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+    .button:hover {
+        background-color: rgba(160, 160, 130, 0.7);
+    }
+    .content-section {
+        width: 90%;
+        max-width: 800px;
+        margin-top: 2rem;
+        padding: 1rem;
+        background-color: rgba(85, 85, 85, 0.7);
+        backdrop-filter: blur(5px);
+        border-radius: 8px;
+    }
+    .content-section h2 {
+        font-size: 1.5rem;
+        margin-bottom: 1rem;
+    }
+    .content-section p {
+        font-size: 1rem;
+        line-height: 1.5;
+        margin-bottom: 1rem;
+    }
+    .footer-pic {
+        width: 80px;
+        height: 80px;
+        border-radius: 50%;
+        margin: 0 auto 1rem auto;
+        display: block;
+    }
+    footer {
+        margin-top: 2rem;
+        padding: 1rem;
+        text-align: center;
+        font-size: 0.9rem;
+        color: rgba(150, 150, 150, 0.5);
+    }
+
+    /* Responsive Styles */
+    @media (max-width: 768px) {
+        h1 {
+            font-size: 1.5rem;
         }
         .profile-pic {
-            width: 170px;
-            height: 170px;
-            border-radius: 50%;
-            margin-bottom: 1rem;
-        }
-        h1 {
-            font-size: 2rem;
-            margin-bottom: 1rem;
+            width: 120px;
+            height: 120px;
         }
         .button {
-            display: inline-block;
-            margin: 0.5rem;
-            padding: 10px 20px;
-            background-color: rgba(85, 85, 85, 0.7); /* White background with 70% opacity */
-            backdrop-filter: blur(5px);
-            color: rgba(255, 255, 255);
-            text-decoration: none;
-            border-radius: 5px;
-            font-weight: bold;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-        .button:hover {
-            background-color: rgba(160, 160, 130, 0.7); /* White background with 70% opacity */
-            backdrop-filter: blur(5px);
+            padding: 8px 15px;
+            font-size: 0.9rem;
         }
         .content-section {
-            width: 100%;
-            max-width: 800px;
-            margin-top: 2rem;
-            padding: 1rem;
-            background-color: rgba(85, 85, 85, 0.7); /* White background with 70% opacity */
-            backdrop-filter: blur(5px);
-            border-radius: 8px;
+            padding: 0.8rem;
         }
         .content-section h2 {
-            font-size: 1.5rem;
-            margin-bottom: 1rem;
+            font-size: 1.2rem;
         }
         .content-section p {
-            font-size: 1rem;
-            line-height: 1.5;
-            margin-bottom: 1rem;
-        }
-        .footer-pic {
-            width: 80px;
-            height: 80px;
-            border-radius: 50%;
-            margin: 0 auto 1rem auto;
-            display: block;
-        }
-        footer {
-            margin-top: 2rem;
-            padding: 1rem;
-            text-align: center;
             font-size: 0.9rem;
-            color: #ccc;
         }
-    </style>
+    }
+    @media (max-width: 480px) {
+        h1 {
+            font-size: 1.2rem;
+        }
+        .profile-pic {
+            width: 100px;
+            height: 100px;
+        }
+        .button {
+            padding: 6px 12px;
+            font-size: 0.8rem;
+        }
+        .content-section {
+            padding: 0.5rem;
+        }
+        .content-section h2 {
+            font-size: 1rem;
+        }
+        .content-section p {
+            font-size: 0.8rem;
+        }
+    }
+</style>
+
 </head>
 
 <body>
@@ -218,10 +254,7 @@
               Developed real-time AI simulations for complex organism evolution in dynamic environments. Implemented 
             </p>
         </div>
-        </div>
-        
-    </div>
-     <footer>
+        <footer>
          <p>
             <img src="agam.jpg" alt="Agam Chopra" class="footer-pic">
          </p>
@@ -229,6 +262,8 @@
             &copy; 2016-2025 Agam Chopra. All rights reserved.
          </p>
         </footer>
+        </div>
+    </div>
 </body>
 </html>
 
