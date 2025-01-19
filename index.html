@@ -9,11 +9,12 @@
     <style>
     body {
         background: linear-gradient(135deg, #121212 25%, #1e1e1e 25%, #1e1e1e 50%, #121212 50%, #121212 75%, #1e1e1e 75%, #1e1e1e 100%);
-        background-size: 10px 10px; /* Creates a small grid-like texture */
+        background-size: 10px 10px;
         font-family: 'Arial', sans-serif;
         margin: 0;
         padding: 0;
         color: #f4f4f4;
+        font-size: 1rem; /* Default font size for body */
     }
     .container {
         display: flex;
@@ -28,7 +29,7 @@
         margin-bottom: 1rem;
     }
     h1 {
-        font-size: 1.8rem;
+        font-size: 1.8rem; /* Title size */
         margin-bottom: 1rem;
         text-align: center;
     }
@@ -41,6 +42,7 @@
         text-decoration: none;
         border-radius: 5px;
         font-weight: bold;
+        font-size: 1rem; /* Matches body text size */
         display: flex;
         align-items: center;
         gap: 0.5rem;
@@ -58,11 +60,11 @@
         border-radius: 8px;
     }
     .content-section h2 {
-        font-size: 1.5rem;
+        font-size: 1.5rem; /* Section heading size */
         margin-bottom: 1rem;
     }
     .content-section p {
-        font-size: 1rem;
+        font-size: 1rem; /* Same size as body text */
         line-height: 1.5;
         margin-bottom: 1rem;
     }
@@ -77,7 +79,7 @@
         margin-top: 2rem;
         padding: 1rem;
         text-align: center;
-        font-size: 0.9rem;
+        font-size: 1rem; /* Matches body text size */
         color: rgba(150, 150, 150, 0.5);
     }
 
@@ -92,16 +94,16 @@
         }
         .button {
             padding: 8px 15px;
-            font-size: 0.9rem;
+            font-size: 1rem; /* Consistent size for buttons */
         }
         .content-section {
             padding: 0.8rem;
         }
         .content-section h2 {
-            font-size: 1.2rem;
+            font-size: 1.2rem; /* Adjusted section heading size */
         }
         .content-section p {
-            font-size: 0.9rem;
+            font-size: 1rem; /* Maintain body text size */
         }
     }
     @media (max-width: 480px) {
@@ -114,19 +116,20 @@
         }
         .button {
             padding: 6px 12px;
-            font-size: 0.8rem;
+            font-size: 1rem; /* Consistent size for buttons */
         }
         .content-section {
             padding: 0.5rem;
         }
         .content-section h2 {
-            font-size: 1rem;
+            font-size: 1rem; /* Adjusted section heading size */
         }
         .content-section p {
-            font-size: 0.8rem;
+            font-size: 1rem; /* Maintain body text size */
         }
     }
 </style>
+
 
 </head>
 
@@ -150,7 +153,15 @@
         
         <div class="content-section">
             <h2>Utah Teapot!</h2>
-            <p>Hi, I am Agam, a Doctoral student at the University of Washington, researching novel generative AI algorithms for multi-modal high dimensional biomedical datasets. I am extremely interested in researching novel models that are inspired by biological learning processes in the brain. I love Cats, Physics, and Computer Science. You can find me tinkering around with robotics and fun programming side projects in my free time.</p>
+<p>
+            I am a results-driven AI researcher with a strong foundation in computer vision, artificial intelligence, and deep learning, complemented by hands-on experience in generative AI and multi-modal data integration. My work focuses on solving real-world problems through innovative AI solutions, including cross-modal 3D medical image synthesis, AI-driven MRI optimizations, and efficient algorithm development for clinical applications.<br>
+
+I bring extensive experience in building scalable, high-performance AI systems, including developing open-source tools, designing data pipelines, and creating production-ready solutions. My expertise spans Python, PyTorch, CUDA, and high-performance computing, with a proven track record of collaborating across disciplines to deliver impactful projects.<br>
+
+With multiple publications under my belt, I excel in translating cutting-edge research into practical, industry-relevant applications. I’m passionate about leveraging AI to drive innovation and efficiency, whether through developing next-generation models, optimizing workflows, or mentoring teams to achieve technical excellence.<br>
+
+I love Cats, Physics, and Computer Science. You can find me tinkering around with robotics and fun programming side projects in my free time.
+            </p>
         </div>
 
         <div class="content-section">
@@ -215,19 +226,19 @@
             <h2>Publications</h2>
              <p><ol>
                   <li><strong>Chopra, A. S.</strong>, et al. (Under review). **Disentangled VQ-VAE for explainable Tau-PET synthesis from multi-modal MRI: A robust and non-invasive approach for Alzheimer’s
-                  disease detection and localization. Submitted to the Medical Imaging with Deep Learning (MIDL) 2025 Conference</li>
+                  disease detection and localization. Submitted to the Medical Imaging with Deep Learning (MIDL) 2025 Conference</li><br>
                   <li><strong>Chopra, A. S.</strong>, Heras Rivera, J. E., Ren, T., Oswal, H., Pan, Y., Sordo, Z., Walters, S., Henry, W., Mohammadi, H., Olson, R., Rezayaraghi, F., Lam, T., Jaikanth, A.,
                   Kancharla, P., Ruzevick, J., Ushizima, D., & Kurt, M. (Under review). Medical Image Inpainting using Efficient Transformer and Fourier UNet. Paper submitted for BRATS
-                  2024</li>
-                  <li>Abderezaei, J., Pionteck, <strong>A., Chopra</strong>, A., & Kurt, M. (2024). 3D Inception-Based TransMorph: Pre- and Post-operative Multi-contrast MRI Registration in Brain Tumors.
-                  Brainlesion: Glioma, Multiple Sclerosis, Stroke and Traumatic Brain Injuries</li>
-                  <li>Ren, T., Honey, E., Rebala, H., Sharma, <strong>A., Chopra</strong>, A., & Kurt, M. (2023). An optimization framework for processing and transfer learning for the brain tumor
-                  segmentation. International Challenge on Cross-Modality Domain Adaptation for Medical Imaging</li>
+                  2024</li><br>
+                  <li>Abderezaei, J., Pionteck, A., <strong>Chopra, A.</strong>, & Kurt, M. (2024). 3D Inception-Based TransMorph: Pre- and Post-operative Multi-contrast MRI Registration in Brain Tumors.
+                  Brainlesion: Glioma, Multiple Sclerosis, Stroke and Traumatic Brain Injuries</li><br>
+                  <li>Ren, T., Honey, E., Rebala, H., Sharma, A., <strong>Chopra, A.</strong>, & Kurt, M. (2023). An optimization framework for processing and transfer learning for the brain tumor
+                  segmentation. International Challenge on Cross-Modality Domain Adaptation for Medical Imaging</li><br>
                   <li>Ren, T., Sharma, A., Rivera, J. E. H., Rebala, H., Honey, E., <strong>Chopra, A.</strong>, & Kurt, M. (2024). Re-DiffiNet: Modeling discrepancy in tumor segmentation using diffusion
-                  models. Medical Imaging with Deep Learning</li>
+                  models. Medical Imaging with Deep Learning</li><br>
                   <li>Rivera, J. E. H., <strong>Chopra, A. S.</strong>, Ren, T., Oswal, H., Pan, Y., Sordo, Z., Walters, S., & Kurt, M. (2024). An Ensemble Approach for Brain Tumor Segmentation and Synthesis.
-                  arXiv preprint arXiv:2411.17617</li>
-                </ol></p>
+                  arXiv preprint arXiv:2411.17617</li><br>
+                </ol>** Working title</p>
         </div>
         
         <div class="content-section">
@@ -235,23 +246,23 @@
             <p>
             <ul>
               <li><strong>Reinforcement Learning-Based Autonomous Video Game Agent (ongoing)</strong><br>
-              Designed innovative Reinforcement Learning-driven Artificial Intelligence to autonomously master First-Person video games.
+              Designed innovative Reinforcement Learning-driven Artificial Intelligence to autonomously master First-Person video games</li><br>
               <li><strong>Bio-Inspired Artificial Neural Networks for high dimensional Multi-modal Data Stream (ongoing)</strong><br>
-              Working on backpropogation free high sample efficiency framework for Artificial Neural Networks that uses optimization and growth algorithms inspired form biological mechanisms in early brain development.
+              Working on backpropogation free high sample efficiency framework for Artificial Neural Networks that uses optimization and growth algorithms inspired form biological mechanisms in early brain development.</li><br>
               <li><strong>Synthetic Image Synthesis using Diffusion-based A.I. (complete)</strong><br>
-              Coded Stable diffusion based generative efficient attention models to synthesize realistic images from noise, text, and images
+              Coded Stable diffusion based generative efficient attention models to synthesize realistic images from noise, text, and images</li><br>
               <li><strong>Synthetic Image Synthesis using WGAN-GP-based A.I. (complete)</strong><br>
-              Programmed generative model based on Wasserstein GAN with gradient penalty to synthesize images from pure noise
+              Programmed generative model based on Wasserstein GAN with gradient penalty to synthesize images from pure noise</li><br>
               <li><strong>3D Real-time N-body Newtonian Particle Dynamics Physics Simulator (complete)</strong><br>
-              Contrived real time 3D sandbox simulation toolbox for simulating N-body dynamics on multicore CPUs and CUDA GPUs
+              Contrived real time 3D sandbox simulation toolbox for simulating N-body dynamics on multicore CPUs and CUDA GPUs</li><br>
               <li><strong>Torch-Register, Torch-NMI, 3D Edge Loss, and Standardized 3D Medical Image Processing Pipeline for PyTorch (complete)</strong><br>
-              Developed and published open-source 3D and 2D medical image processing software for Python3 and PyTorch on Pypi.org
+              Developed and published open-source 3D and 2D medical image processing software for Python3 and PyTorch on Pypi.org</li><br>
               <li><strong>3D-Scene Generation from 2D Images using Conventional and A.I. Algorithms (complete, continuous update)</strong><br>
-              Wrote applications to transfer 2D image domain to approximate 3D scene domain using AI and conventional mathematics
+              Wrote applications to transfer 2D image domain to approximate 3D scene domain using AI and conventional mathematics</li><br>
               <li><strong>A.I. based Pet Companion Robot (complete, revision ongoing)</strong><br>
-              Prototyped robots to recognizing pets and avoiding collisions with obstacles using deep learning-based object detection
+              Prototyped robots to recognizing pets and avoiding collisions with obstacles using deep learning-based object detection</li><br>
               <li><strong>Life Engine based on my 3D Physics Engine and Evolutionary Reinforcement Learning (ongoing)</strong><br>
-              Developed real-time AI simulations for complex organism evolution in dynamic environments. Implemented 
+              Developed real-time AI simulations for complex organism evolution in dynamic environments. Implemented intricate physical, sensory(visual, tactile, thermal, and chemical interaction models, enabling organisms to adapt and compete effectively</li><br>
             </p>
         </div>
         <footer>
