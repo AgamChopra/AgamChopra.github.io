@@ -1,277 +1,286 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Agam Chopra</title>
+    <meta name="description" content="Agam Chopra - AI research scientist and engineer working across generative AI, multimodal learning, computer vision, and medical imaging.">
+    <title>Agam Chopra | AI Research Scientist and Engineer</title>
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <script>
+        try {
+            const storedTheme = localStorage.getItem("theme");
+            if (storedTheme === "light" || storedTheme === "dark") {
+                document.documentElement.dataset.theme = storedTheme;
+            }
+        } catch (error) {
+            document.documentElement.dataset.theme = "dark";
+        }
+    </script>
     <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
-    <style>
-    body {
-        background: linear-gradient(135deg, #121212 25%, #1e1e1e 25%, #1e1e1e 50%, #121212 50%, #121212 75%, #1e1e1e 75%, #1e1e1e 100%);
-        background-size: 10px 10px;
-        font-family: 'Arial', sans-serif;
-        margin: 0;
-        padding: 0;
-        color: #f4f4f4;
-        font-size: 1rem; /* Default font size for body */
-    }
-    .container {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        padding: 2rem 1rem;
-    }
-    .profile-pic {
-        width: 150px;
-        height: 150px;
-        border-radius: 50%;
-        margin-bottom: 1rem;
-    }
-    h1 {
-        font-size: 1.8rem; /* Title size */
-        margin-bottom: 1rem;
-        text-align: center;
-    }
-    .button {
-        margin: 0.5rem;
-        padding: 10px 20px;
-        background-color: rgba(85, 85, 85, 0.7);
-        backdrop-filter: blur(5px);
-        color: #fff;
-        text-decoration: none;
-        border-radius: 5px;
-        font-weight: bold;
-        font-size: 1rem; /* Matches body text size */
-        display: flex;
-        align-items: center;
-        gap: 0.5rem;
-    }
-    .button:hover {
-        background-color: rgba(160, 160, 130, 0.7);
-    }
-    .content-section {
-        width: 90%;
-        max-width: 800px;
-        margin-top: 2rem;
-        padding: 1rem;
-        background-color: rgba(185, 185, 185, 0.25);
-        backdrop-filter: blur(2.5px);
-        border-radius: 8px;
-    }
-    .content-section h2 {
-        font-size: 1.5rem; /* Section heading size */
-        margin-bottom: 1rem;
-    }
-    .content-section p {
-        font-size: 1rem; /* Same size as body text */
-        line-height: 1.5;
-        margin-bottom: 1rem;
-    }
-    .footer-pic {
-        width: 80px;
-        height: 80px;
-        border-radius: 50%;
-        margin: 0 auto 1rem auto;
-        display: block;
-    }
-    footer {
-        margin-top: 2rem;
-        padding: 1rem;
-        text-align: center;
-        font-size: 1rem; /* Matches body text size */
-        color: rgba(150, 150, 150, 0.5);
-    }
-
-    /* Responsive Styles */
-    @media (max-width: 768px) {
-        h1 {
-            font-size: 1.5rem;
-        }
-        .profile-pic {
-            width: 120px;
-            height: 120px;
-        }
-        .button {
-            padding: 8px 15px;
-            font-size: 1rem; /* Consistent size for buttons */
-        }
-        .content-section {
-            padding: 0.8rem;
-        }
-        .content-section h2 {
-            font-size: 1.2rem; /* Adjusted section heading size */
-        }
-        .content-section p {
-            font-size: 1rem; /* Maintain body text size */
-        }
-    }
-    @media (max-width: 480px) {
-        h1 {
-            font-size: 1.2rem;
-        }
-        .profile-pic {
-            width: 100px;
-            height: 100px;
-        }
-        .button {
-            padding: 6px 12px;
-            font-size: 1rem; /* Consistent size for buttons */
-        }
-        .content-section {
-            padding: 0.5rem;
-        }
-        .content-section h2 {
-            font-size: 1rem; /* Adjusted section heading size */
-        }
-        .content-section p {
-            font-size: 1rem; /* Maintain body text size */
-        }
-    }
-</style>
-
-
+    <script src="script.js" defer></script>
 </head>
-
 <body>
-<div class="fixed-background">
-    <div class="container">
-        <img src="agam_1.png" alt="Agam Chopra" class="profile-pic">
-        <h1>Agam Chopra</h1>
-        <p><strong>Lawful Permanent Resident of the United States</strong></p>
-        <div>
-            <a href="https://scholar.google.com/citations?hl=en&user=s0Pqt1IAAAAJ" class="button" target="_blank">
-                <i class="fas fa-graduation-cap"></i> Scholar
-            </a>
-            <a href="https://github.com/AgamChopra" class="button" target="_blank">
-                <i class="fab fa-github"></i> GitHub
-            </a>
-            <a href="mailto:work.agamchopra@gmail.com" class="button">
-                <i class="fas fa-envelope"></i> Email
-            </a>
+    <header class="site-header">
+        <nav class="nav-shell" aria-label="Main navigation">
+            <a class="brand" href="#top" aria-label="Agam Chopra home">AC</a>
+            <div class="nav-actions">
+                <div class="nav-links">
+                    <a href="#experience">Experience</a>
+                    <a href="#publications">Publications</a>
+                    <a href="#skills">Skills</a>
+                    <a href="mailto:work.agamchopra@gmail.com">Contact</a>
+                </div>
+                <button class="theme-toggle" id="theme-toggle" type="button" aria-label="Switch to light theme" title="Switch theme" accesskey="s">
+                    <i class="fas fa-sun" aria-hidden="true"></i>
+                    <span data-theme-label>Light</span>
+                </button>
+            </div>
+        </nav>
+    </header>
+
+    <main id="top">
+        <section class="hero section-shell">
+            <div class="hero-copy">
+                <p class="eyebrow">AI Research Scientist and Engineer</p>
+                <h1>Agam Chopra</h1>
+                <p class="hero-summary">
+                    AI scientist and engineer with 6+ years of experience developing novel AI algorithms from theory to real-world implementation across generative AI, multimodal learning, computer vision, and medical imaging.
+                </p>
+                <div class="contact-row" aria-label="Contact and profile links">
+                    <a class="button primary" href="mailto:achopra4@uw.edu">
+                        <i class="fas fa-envelope" aria-hidden="true"></i>
+                        UW Email
+                    </a>
+                    <a class="button" href="mailto:work.agamchopra@gmail.com">
+                        <i class="fas fa-paper-plane" aria-hidden="true"></i>
+                        Work Email
+                    </a>
+                    <a class="button" href="https://linkedin.com/in/agam-chopra" target="_blank" rel="noopener">
+                        <i class="fab fa-linkedin" aria-hidden="true"></i>
+                        LinkedIn
+                    </a>
+                    <a class="button" href="https://github.com/AgamChopra" target="_blank" rel="noopener">
+                        <i class="fab fa-github" aria-hidden="true"></i>
+                        GitHub
+                    </a>
+                    <a class="button" href="https://scholar.google.com/citations?hl=en&user=s0Pqt1IAAAAJ" target="_blank" rel="noopener">
+                        <i class="fas fa-graduation-cap" aria-hidden="true"></i>
+                        Scholar
+                    </a>
+                </div>
+            </div>
+            <aside class="hero-panel" aria-label="Profile summary">
+                <img src="agam_1.png" alt="Portrait of Agam Chopra" class="profile-image">
+                <div class="profile-meta">
+                    <span>Chicago, IL</span>
+                    <span>University of Washington</span>
+                    <span>Biomedical Computer Vision</span>
+                </div>
+            </aside>
+        </section>
+
+        <section class="metrics section-shell" aria-label="Career highlights">
+            <div>
+                <strong>6+ years</strong>
+                <span>AI research and engineering</span>
+            </div>
+            <div data-scholar-card>
+                <strong>h-index <span data-scholar-h-index>5</span></strong>
+                <span><span data-scholar-citations>143</span> citations <span data-scholar-updated>as of May 13, 2026</span></span>
+            </div>
+            <div>
+                <strong>2 awards</strong>
+                <span>Competitive AI imaging research grants</span>
+            </div>
+            <div>
+                <strong>BraTS</strong>
+                <span>Top-ranked challenge placements, 2022-2024</span>
+            </div>
+        </section>
+
+        <section id="experience" class="section-shell split-section">
+            <div class="section-intro">
+                <p class="eyebrow">Experience</p>
+                <h2>Research depth with production engineering range.</h2>
+            </div>
+            <div class="timeline">
+                <article class="timeline-item">
+                    <div class="timeline-heading">
+                        <div>
+                            <h3>Doctoral Candidate</h3>
+                            <p>KurtLab, University of Washington - Seattle, WA</p>
+                        </div>
+                        <span>Sep 2022 - Present</span>
+                    </div>
+                    <ul>
+                        <li>Designed controllable multimodal generative models for MRI-to-Tau-PET synthesis, including vector-quantized and information-theoretic methods for Alzheimer's imaging research.</li>
+                        <li>Built gradient-efficient PyTorch/CUDA preprocessing, training, and evaluation libraries for large-scale 3D medical AI experimentation across Linux and HPC environments.</li>
+                        <li>Led model development across tumor synthesis, inpainting, classification, survival prediction, and registration workloads, with top-ranked BraTS challenge placements from 2022 to 2024.</li>
+                        <li>Collaborated with Microsoft on clinically aligned LLM/VLM evaluation and with Amazon Robotics on 3D scene-generation and damage-estimation pipelines.</li>
+                        <li>Secured an Amazon research grant and a University of Washington internal data science grant for AI imaging proposals.</li>
+                    </ul>
+                </article>
+
+                <article class="timeline-item">
+                    <div class="timeline-heading">
+                        <div>
+                            <h3>AI Consultant</h3>
+                            <p>J.S. Chopra &amp; Associates - Remote</p>
+                        </div>
+                        <span>Jul 2024 - Present</span>
+                    </div>
+                    <ul>
+                        <li>Designed ML-driven automation for financial audit, fraud review, and large-scale data mining workflows.</li>
+                        <li>Built anomaly-detection, risk-scoring, and decision-support systems in Python, PyQt, SQL, PyTorch, and Numba for real-time monitoring.</li>
+                    </ul>
+                </article>
+
+                <article class="timeline-item">
+                    <div class="timeline-heading">
+                        <div>
+                            <h3>Graduate Teaching Assistant</h3>
+                            <p>University of Washington - Seattle, WA</p>
+                        </div>
+                        <span>Jan 2023 - Jun 2025</span>
+                    </div>
+                    <ul>
+                        <li>Taught ME535 and ME230 through lectures, labs, and code support in Python, C, and C++ for 200+ students.</li>
+                        <li>Coached students on algorithm design, optimization, numerical methods, and scalable scientific programming.</li>
+                    </ul>
+                </article>
+
+                <article class="timeline-item">
+                    <div class="timeline-heading">
+                        <div>
+                            <h3>AI Research Associate</h3>
+                            <p>Stevens Institute of Technology - Hoboken, NJ</p>
+                        </div>
+                        <span>Jan 2021 - Jan 2022</span>
+                    </div>
+                    <ul>
+                        <li>Developed deep learning-based 4D spatiotemporal registration methods for accelerated MRI time-series.</li>
+                        <li>Designed architectures, preprocessing pipelines, and validation workflows for heterogeneous biomedical imaging data.</li>
+                    </ul>
+                </article>
+
+                <article class="timeline-item">
+                    <div class="timeline-heading">
+                        <div>
+                            <h3>Full-Stack Software Engineer</h3>
+                            <p>Reindeer Shuttle Inc. - West Lafayette, IN</p>
+                        </div>
+                        <span>May 2018 - Jun 2020</span>
+                    </div>
+                    <ul>
+                        <li>Redesigned and optimized the company's Progressive Web Application across desktop and mobile platforms.</li>
+                        <li>Built analytics and reporting pipelines for fleet operations, demand forecasting, and business intelligence using Python, SQL, Excel, and Google Analytics.</li>
+                    </ul>
+                </article>
+            </div>
+        </section>
+
+        <section class="section-shell split-section education-section">
+            <div class="section-intro">
+                <p class="eyebrow">Education</p>
+                <h2>Biomedical AI, machine learning, and physics training.</h2>
+            </div>
+            <div class="education-grid">
+                <article>
+                    <span>Scheduled defense July 2026</span>
+                    <h3>Ph.D., Mechanical Engineering</h3>
+                    <p>Artificial Intelligence in Biomedical Computer Vision</p>
+                    <p>University of Washington, Seattle, WA</p>
+                </article>
+                <article>
+                    <span>May 2022</span>
+                    <h3>M.S., Computer Science and Machine Learning</h3>
+                    <p>Stevens Institute of Technology, Hoboken, NJ</p>
+                </article>
+                <article>
+                    <span>May 2020</span>
+                    <h3>B.S., Physics</h3>
+                    <p>Purdue University, West Lafayette, IN</p>
+                </article>
+            </div>
+        </section>
+
+        <section id="publications" class="section-shell split-section">
+            <div class="section-intro">
+                <p class="eyebrow">Publications</p>
+                <h2>Selected work in multimodal synthesis, registration, and medical imaging AI.</h2>
+            </div>
+            <ol class="publication-list">
+                <li>
+                    <strong>QPID-Net+: True Partial Information Decomposition for Generalizable Multimodal Medical Image Synthesis.</strong>
+                    <span>Chopra, A.; Kurt, M. Validation study ongoing.</span>
+                </li>
+                <li>
+                    <strong>Stress-Testing QPID-Net for Synthetic Tau-PET: Calibration, Staging, and High-Uptake Fidelity.</strong>
+                    <span>Chopra, A.; Neher, C.; Ren, T.; Rivera, J. E. H.; Jahanian, H.; Kurt, M. Manuscript in preparation for MIRASOL.</span>
+                </li>
+                <li>
+                    <strong>Interpretable MRI to Tau-PET Synthesis via Quantized Latent Disentanglement.</strong>
+                    <span>Chopra, A.; Neher, C.; Ren, T.; Rivera, J. E. H.; Jahanian, H.; Kurt, M. Submission ongoing at IEEE TMI. <a href="https://arxiv.org/abs/2602.22545" target="_blank" rel="noopener">arXiv, 2026</a>.</span>
+                </li>
+                <li>
+                    <strong>Here Comes the Explanation: A Shapley Perspective on Multi-contrast Medical Image Segmentation.</strong>
+                    <span>Ren, T.; Rivera, J. E. H.; Chopra, A.; Oswal, H.; Pan, Y.; Ruzevick, J.; Kurt, M. <a href="https://arxiv.org/abs/2504.04645" target="_blank" rel="noopener">arXiv, 2025</a>.</span>
+                </li>
+                <li>
+                    <strong>3D Inception-based TransMorph: Pre- and Post-operative Multi-contrast MRI Registration in Brain Tumors.</strong>
+                    <span>Abderezaei, J.; Pionteck, A.; Chopra, A.; Kurt, M. <a href="https://link.springer.com/chapter/10.1007/978-3-031-44153-0_4" target="_blank" rel="noopener">BrainLes / Springer LNCS, 2024</a>.</span>
+                </li>
+                <li>
+                    <strong>Re-DiffiNet: Modeling Discrepancies in Tumor Segmentation Using Diffusion Models.</strong>
+                    <span>Ren, T.; Sharma, A.; Rivera, J. E. H.; Rebala, H.; Honey, E.; Chopra, A.; Ruzevick, J.; Kurt, M. <a href="https://arxiv.org/abs/2402.07354" target="_blank" rel="noopener">arXiv, 2024</a>.</span>
+                </li>
+                <li>
+                    <strong>An Ensemble Approach for Brain Tumor Segmentation and Synthesis.</strong>
+                    <span>Heras Rivera, J. E.; Chopra, A.; Ren, T.; Oswal, H.; Pan, Y.; Sordo, Z.; Walters, S. <a href="https://arxiv.org/abs/2411.17617" target="_blank" rel="noopener">arXiv, 2024</a>.</span>
+                </li>
+                <li>
+                    <strong>An Optimization Framework for Processing and Transfer Learning for Brain Tumor Segmentation.</strong>
+                    <span>Ren, T.; Honey, E.; Rebala, H.; Sharma, A.; Chopra, A.; Kurt, M. <a href="https://link.springer.com/chapter/10.1007/978-3-031-76163-8_15" target="_blank" rel="noopener">MICCAI Challenge / Springer, 2023</a>.</span>
+                </li>
+                <li>
+                    <strong>The Brain Tumor Sequence Registration (BraTS-Reg) Challenge.</strong>
+                    <span>Baheti, B.; Chakrabarty, S.; Akbari, H.; Bilello, M.; Wiestler, B.; Schwarting, J.; Chopra, A.; et al. <a href="https://arxiv.org/abs/2112.06979" target="_blank" rel="noopener">arXiv, 2021</a>.</span>
+                </li>
+            </ol>
+        </section>
+
+        <section id="skills" class="section-shell skills-section">
+            <div class="section-intro">
+                <p class="eyebrow">Technical Skills</p>
+                <h2>Tools and strengths.</h2>
+            </div>
+            <div class="skill-groups">
+                <article>
+                    <h3>Languages</h3>
+                    <p>Python, C, C++, SQL, JavaScript, TypeScript, MATLAB</p>
+                </article>
+                <article>
+                    <h3>ML / AI</h3>
+                    <p>PyTorch, CUDA, Transformers, LLMs, VLMs, Latent Diffusion, Reinforcement Learning, Computer Vision, Multimodal Learning, Medical Imaging, Self-supervised Learning</p>
+                </article>
+                <article>
+                    <h3>Systems</h3>
+                    <p>Linux, Git, LaTeX, Docker, Singularity, Azure, HPC, MLOps, Data Pipelines, Experimentation Frameworks</p>
+                </article>
+                <article>
+                    <h3>Strengths</h3>
+                    <p>AI research, model development, production engineering, open-source tooling, technical mentoring, cross-functional collaboration</p>
+                </article>
+            </div>
+        </section>
+    </main>
+
+    <footer class="site-footer">
+        <div class="section-shell footer-shell">
+            <p>&copy; <span id="current-year">2026</span> Agam Chopra. All rights reserved.</p>
+            <a href="#top">Back to top</a>
         </div>
-        
-        <div class="content-section">
-            <h2>Utah Teapot!</h2>
-<p>
-            I am a results-driven AI researcher with a strong foundation in computer vision, artificial intelligence, and deep learning, complemented by hands-on experience in generative AI and multi-modal data integration. My work focuses on solving real-world problems through innovative AI solutions, including cross-modal 3D medical image synthesis, AI-driven MRI optimizations, and efficient algorithm development for clinical applications.<br>
-
-I bring extensive experience in building scalable, high-performance AI systems, including developing open-source tools, designing data pipelines, and creating production-ready solutions. My expertise spans Python, PyTorch, CUDA, and high-performance computing, with a proven track record of collaborating across disciplines to deliver impactful projects.<br>
-
-With multiple publications under my belt, I excel in translating cutting-edge research into practical, industry-relevant applications. I’m passionate about leveraging AI to drive innovation and efficiency, whether through developing next-generation models, optimizing workflows, or mentoring teams to achieve technical excellence.<br>
-
-I love Cats, Physics, and Computer Science. You can find me tinkering around with robotics and fun programming side projects in my free time.<br><br>
-For any business inquiries or hiring queries, please contact me via my work email linked above. To request a full up-to-date resume, please add "resume-request" to the email heading.<br><br>
-<strong>I am based in Chicago, IL and currently open to full-time, part-time, contract, and consultant opportunities (remote, hybrid, or in-person). Base annual salary expectation of $150,000, negotiable.</strong>
-            </p>
-        </div>
-
-        <div class="content-section">
-            <h2>Work Experience</h2>
-             <p>
-      <b>Doctoral Student</b>
-      <br>KurtLab, University of Washington, Seattle, WA, USA
-      <br>Sep 2022 - present<br>
-      <ul>
-          <li>Created open-source packages and tools for easy integration of medical data processing pipelines with gradient friendly PyTorch implementations for the medical AI community</li>
-          <li>Experience working with multi-modal datasets of image, 3D scans, temporal scans, text, and other tabular metadata for training cross-modal generative AI algorithms</li>
-          <li>Participated and achieved competitive scores in 2022, 2023, and 2024 Brain Tumor Sequence challenges, for 3D image synthesis, tumor classification, and pre-post operative registration</li>
-          <li>Researching novel Generative AI frameworks for cross-modal 3D medical image synthesis, focusing on Synthetic Tau-PET and Compression-Synthesis techniques to streamline image synthesis for clinical applications</li>
-          <li>Successfully obtained funding from competitive Amazon research grant and internal Data Science grant at the University of Washington for investigating novel data-driven research proposals</li>
-          <li>Collaborated on Amplified 4D MRI and AFLOW projects to enhance iterative physics algorithms with the aid of artificial intelligence, optimizing computational efficiency</li>
-      </ul>
-    </p>
-
-    <p>
-      <b>Graduate Teaching Assistant</b>
-      <br>University of Washington, Seattle, WA, USA
-      <br>Jan 2023 - present<br>
-      <ul>
-        <li>Instructed 1 quarter of ME535 and 3 quarters of ME230 to a class of 200 students, focusing on application of computational techniques in engineering by delivering lectures and hands-on lab sessions in Python, C, and C++, emphasizing algorithm development and problem-solving techniques</li>
-        <li>Taught core mathematical concepts, including numerical methods, linear algebra, and differential equations, foundational to the courses</li>
-      </ul>
-    </p>
-
-    <p>
-      <b>Research Assistant</b>
-      <br>KurtLab, Stevens Institute of Technology, Hoboken, NJ, USA
-      <br>Jan 2021 - Jan 2022<br>
-      <ul>
-          <li>Researched, tested, and implemented deep learning-based 4D spatial-temporal image registration algorithms to accurately extrapolate displacement fields of 3D aMRI time sequences using Python and MATLAB</li>
-          <li>Theorized a novel deep learning-based automatic brain morphology algorithm to accurately estimate the morphology of the target region of a brain scan for any patient sample</li>
-      </ul>
-    </p>
-
-     <p>
-      <b>Software Developer I, II</b>
-      <br>Reindeer Shuttle, INC, West Lafayette, IN, USA
-      <br>May 2018 - Jun 2020<br>
-      <ul>
-          <li>Optimized the company's website using Google Analytics, PWA, and UI design principles</li>
-          <li>Conducted data analysis to identify trends and correlations for cost-effective fleet operations</li>
-          <li>Presented data-driven reports using Google Analytics, Python, and Excel</li>
-      </ul>
-    </p>
-        </div>
-
-        <div class="content-section">
-            <h2>Education</h2>
-            <p><strong>Ph.D. in Mechanical Engineering (Deep Learning & Computer Vision)</strong><br>
-                    University of Washington, Seattle, WA (2022 - present)</p>
-                <p><strong>M.S. in Computer Science (Machine Learning)</strong><br>
-                    Stevens Institute of Technology, Hoboken, NJ (2020 - 2022)</p>
-                <p><strong>B.S. in Physics</strong><br>
-                    Purdue University, West Lafayette, IN (2015 - 2020)</p>
-        </div>
-
-        <div class="content-section">
-            <h2>Publications</h2>
-             <p><i><ol>
-                  <li>Chopra, A., Ren, T., Rivera, J. E. H., Jahanian, H., Hedden, T., & Kurt, M. (2024). Synthesizing Tau-PET from multimodal MRI for Alzheimer’s disease detection using disentangled quantized variational autoencoders. In Medical Imaging with Deep Learning.</li>
-    <li>Chopra, A. S., Heras Rivera, J. E., Ren, T., Oswal, H., Pan, Y., Sordo, Z., Walters, S., Henry, W., Mohammadi, H., Olson, R., Rezayaraghi, F., Lam, T., Jaikanth, A., Kancharla, P., Ruzevick, J., Ushizima, D., & Kurt, M. Medical Image Inpainting using Efficient Transformer and Fourier UNet. Paper submitted for BRATS 2024.
-    <li>Ren, T., Rivera, J. E. H., Chopra, A., Ruzevick, J., & Kurt, M. (2024). Here comes the explanation: A Shapley perspective on multi-contrast image segmentation. In Medical Imaging with Deep Learning.</li>
-    <li>Rivera, J. E. H., Kurt, M., Ren, T., Chopra, A., Oswal, H., & Pan, Y. (2024). How we won the ISLES 2024 Challenge by windowing and preprocessing. In Medical Imaging with Deep Learning.</li>
-    <li>Ren, T., Honey, E., Rebala, H., Sharma, A., Chopra, A., & Kurt, M. (2023). An optimization framework for processing and transfer learning for the brain tumor segmentation. In International Challenge on Cross-Modality Domain Adaptation for Medical Image Segmentation (pp. 165–176). Springer Nature Switzerland Cham.</li>
-    <li>Ren, T., Sharma, A., Rivera, J. E. H., Rebala, L. H., Honey, E., Chopra, A., & Kurt, M. (2024). Re-DiffiNet: Modeling discrepancy in tumor segmentation using diffusion models. In Medical Imaging with Deep Learning.</li>
-    <li>Javid Abderezaei, Pionteck, A., Chopra, A., & Kurt, M. (2024). 3D Inception-Based TransMorph: Pre- and post-operative multi-contrast MRI registration in brain tumors. In S. Bakas et al. (Eds.), Brainlesion: Glioma, Multiple Sclerosis, Stroke and Traumatic Brain Injuries. BrainLes 2022. Lecture Notes in Computer Science (Vol. 14092, pp. 35–45). Springer, Cham.</li>
-    <li>Rivera, J. E. H., Chopra, A. S., Ren, T., Oswal, H., Pan, Y., Sordo, Z., Walters, S., Henry, W., Mohammadi, H., Olson, R., et al. (2024). An ensemble approach for brain tumor segmentation and synthesis. arXiv preprint arXiv:2411.17617.</li>
-    </ol></i></p>
-        </div>
-        
-        <div class="content-section">
-            <h2>Relevant Projects</h2>
-            <p>
-            <ul>
-              <li><strong>Reinforcement Learning-Based Autonomous Video Game Agent (ongoing)</strong><br>
-              Designed innovative Reinforcement Learning-driven Artificial Intelligence to autonomously master First-Person video games</li><br>
-              <li><strong>Bio-Inspired Artificial Neural Networks for high dimensional Multi-modal Data Stream (ongoing)</strong><br>
-              Working on backpropogation free high sample efficiency framework for Artificial Neural Networks that uses optimization and growth algorithms inspired form biological mechanisms in early brain development.</li><br>
-              <li><strong>Synthetic Image Synthesis using Diffusion-based A.I. (complete)</strong><br>
-              Coded Stable diffusion based generative efficient attention models to synthesize realistic images from noise, text, and images</li><br>
-              <li><strong>Synthetic Image Synthesis using WGAN-GP-based A.I. (complete)</strong><br>
-              Programmed generative model based on Wasserstein GAN with gradient penalty to synthesize images from pure noise</li><br>
-              <li><strong>3D Real-time N-body Newtonian Particle Dynamics Physics Simulator (complete)</strong><br>
-              Contrived real time 3D sandbox simulation toolbox for simulating N-body dynamics on multicore CPUs and CUDA GPUs</li><br>
-              <li><strong>Torch-Register, Torch-NMI, 3D Edge Loss, and Standardized 3D Medical Image Processing Pipeline for PyTorch (complete)</strong><br>
-              Developed and published open-source 3D and 2D medical image processing software for Python3 and PyTorch on Pypi.org</li><br>
-              <li><strong>3D-Scene Generation from 2D Images using Conventional and A.I. Algorithms (complete, continuous update)</strong><br>
-              Wrote applications to transfer 2D image domain to approximate 3D scene domain using AI and conventional mathematics</li><br>
-              <li><strong>A.I. based Pet Companion Robot (complete, revision ongoing)</strong><br>
-              Prototyped robots to recognizing pets and avoiding collisions with obstacles using deep learning-based object detection</li><br>
-              <li><strong>Life Engine based on my 3D Physics Engine and Evolutionary Reinforcement Learning (ongoing)</strong><br>
-              Developed real-time AI simulations for complex organism evolution in dynamic environments. Implemented intricate physical, sensory(visual, tactile, thermal, and chemical interaction models, enabling organisms to adapt and compete effectively</li><br>
-            </p>
-        </div>
-        <footer>
-         <p>
-            <img src="agam.jpg" alt="Agam Chopra" class="footer-pic">
-         </p>
-         <p>
-            &copy; 2016-2025 Agam Chopra. All rights reserved.
-         </p>
-        </footer>
-        </div>
-    </div>
+    </footer>
 </body>
 </html>
-
