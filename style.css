@@ -278,6 +278,156 @@ h3 {
     color: var(--accent-ink);
 }
 
+.top-easter-egg {
+    position: fixed;
+    top: 86px;
+    left: 50%;
+    z-index: 45;
+    display: grid;
+    width: 86px;
+    height: 98px;
+    place-items: center;
+    pointer-events: none;
+    opacity: 0;
+    transform: translate(-50%, var(--egg-offset, -34px)) scale(var(--egg-scale, 0.78)) rotate(var(--egg-tilt, 0deg));
+    transform-origin: center top;
+    transition: opacity 160ms ease, transform 120ms ease;
+    will-change: opacity, transform;
+}
+
+.top-easter-egg.is-visible {
+    opacity: 1;
+}
+
+.top-easter-egg.is-strained .top-easter-egg__shell {
+    animation: egg-wobble 420ms ease-in-out infinite;
+}
+
+.top-easter-egg.is-popped {
+    animation: egg-pop 460ms ease forwards;
+}
+
+.top-easter-egg__shell {
+    position: relative;
+    display: block;
+    width: 58px;
+    height: 76px;
+    border: 2px solid rgba(117, 93, 52, 0.34);
+    border-radius: 52% 48% 46% 46% / 62% 62% 40% 40%;
+    background:
+        radial-gradient(circle at 34% 28%, rgba(255, 255, 255, 0.92), transparent 13px),
+        linear-gradient(155deg, #fffdf2 0%, #ffe6a6 62%, #f8c86b 100%);
+    box-shadow:
+        inset -8px -12px 18px rgba(117, 93, 52, 0.16),
+        0 18px 34px rgba(0, 0, 0, 0.24);
+}
+
+.top-easter-egg__shell::before,
+.top-easter-egg__shell::after {
+    position: absolute;
+    content: "";
+}
+
+.top-easter-egg__shell::before {
+    top: 24px;
+    left: 13px;
+    width: 6px;
+    height: 6px;
+    border-radius: 999px;
+    background: rgba(245, 158, 11, 0.36);
+    box-shadow:
+        21px 9px 0 rgba(45, 212, 191, 0.24),
+        10px 29px 0 rgba(245, 158, 11, 0.24);
+}
+
+.top-easter-egg__shell::after {
+    top: 17px;
+    left: 18px;
+    width: 24px;
+    height: 34px;
+    background:
+        linear-gradient(135deg, transparent 0 42%, rgba(83, 56, 29, 0.86) 44% 52%, transparent 54%),
+        linear-gradient(45deg, transparent 0 42%, rgba(83, 56, 29, 0.86) 44% 52%, transparent 54%);
+    clip-path: polygon(44% 0, 59% 22%, 42% 40%, 65% 62%, 47% 100%, 35% 100%, 51% 64%, 29% 41%, 45% 21%, 32% 0);
+    opacity: 0;
+    transition: opacity 120ms ease;
+}
+
+.top-easter-egg.is-strained .top-easter-egg__shell::after,
+.top-easter-egg.is-popped .top-easter-egg__shell::after {
+    opacity: 1;
+}
+
+.cat-confetti-layer {
+    position: fixed;
+    inset: 0;
+    z-index: 44;
+    overflow: hidden;
+    pointer-events: none;
+}
+
+.falling-cat {
+    position: absolute;
+    top: -18vh;
+    left: var(--left, 50vw);
+    display: block;
+    font-size: var(--size, 32px);
+    line-height: 1;
+    filter: drop-shadow(0 12px 14px rgba(0, 0, 0, 0.22));
+    opacity: 0;
+    transform: translate3d(0, -18vh, 0) rotate(0deg);
+    animation: cat-fall var(--duration, 2.4s) cubic-bezier(0.18, 0.78, 0.28, 1) var(--delay, 0s) forwards;
+    will-change: opacity, transform;
+}
+
+@keyframes egg-wobble {
+    0%,
+    100% {
+        transform: rotate(-4deg) scaleX(1);
+    }
+
+    50% {
+        transform: rotate(4deg) scaleX(0.94);
+    }
+}
+
+@keyframes egg-pop {
+    0% {
+        opacity: 1;
+        transform: translate(-50%, 4px) scale(1.08) rotate(0deg);
+    }
+
+    42% {
+        opacity: 1;
+        transform: translate(-50%, 8px) scale(1.28) rotate(-9deg);
+    }
+
+    100% {
+        opacity: 0;
+        transform: translate(-50%, -28px) scale(0.18) rotate(24deg);
+    }
+}
+
+@keyframes cat-fall {
+    0% {
+        opacity: 0;
+        transform: translate3d(0, -18vh, 0) rotate(0deg);
+    }
+
+    12% {
+        opacity: 1;
+    }
+
+    88% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0;
+        transform: translate3d(var(--drift, 0), 124vh, 0) rotate(var(--spin, 360deg));
+    }
+}
+
 .hero-panel {
     align-self: stretch;
     display: flex;
@@ -555,6 +705,10 @@ li + li {
         width: min(100% - 28px, var(--max-width));
     }
 
+    .top-easter-egg {
+        top: 128px;
+    }
+
     .site-header {
         position: static;
     }
@@ -625,5 +779,39 @@ li + li {
     .publication-list li::before {
         position: static;
         margin-bottom: 12px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .top-easter-egg {
+        transition: opacity 120ms ease;
+    }
+
+    .top-easter-egg.is-strained .top-easter-egg__shell,
+    .top-easter-egg.is-popped {
+        animation: none;
+    }
+
+    .falling-cat {
+        top: 14vh;
+        animation: cat-fade 900ms ease var(--delay, 0s) forwards;
+    }
+}
+
+@keyframes cat-fade {
+    0% {
+        opacity: 0;
+        transform: translate3d(0, 0, 0) scale(0.82);
+    }
+
+    20%,
+    75% {
+        opacity: 1;
+        transform: translate3d(0, 0, 0) scale(1);
+    }
+
+    100% {
+        opacity: 0;
+        transform: translate3d(0, 0, 0) scale(0.92);
     }
 }
