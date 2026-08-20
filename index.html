@@ -2,8 +2,9 @@
 <html lang="en" data-theme="dark">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <meta name="description" content="Agam Chopra, Ph.D. - AI developer and researcher working across multimodal learning, computer vision, medical imaging, and production AI engineering.">
+    <meta name="theme-color" id="theme-color" content="#07111f">
     <title>Agam Chopra, Ph.D. | AI Developer and Researcher</title>
     <link rel="preconnect" href="https://cdnjs.cloudflare.com">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
@@ -20,34 +21,37 @@
     <link rel="stylesheet" href="style.css">
     <script src="script.js" defer></script>
 </head>
-<body>
+<body id="top">
+    <a class="skip-link" href="#main-content">Skip to content</a>
     <header class="site-header">
-        <nav class="nav-shell" aria-label="Main navigation">
-            <a class="brand" href="#top" aria-label="Agam Chopra home">AC</a>
+        <div class="scroll-progress" aria-hidden="true"><span></span></div>
+        <nav class="nav-shell" aria-label="Main navigation" data-glass="chrome">
+            <a class="brand" href="#top" aria-label="Agam Chopra home" data-easter-egg-trigger>AC</a>
             <div class="nav-actions">
                 <div class="nav-links">
-                    <a href="#experience">Experience</a>
-                    <a href="#publications">Publications</a>
-                    <a href="#skills">Skills</a>
-                    <a href="mailto:work.agamchopra@gmail.com">Contact</a>
+                    <a href="#experience"><i class="fas fa-briefcase" aria-hidden="true"></i><span>Experience</span></a>
+                    <a href="#publications"><i class="fas fa-book-open" aria-hidden="true"></i><span>Publications</span></a>
+                    <a href="#skills"><i class="fas fa-code" aria-hidden="true"></i><span>Skills</span></a>
+                    <a href="mailto:work.agamchopra@gmail.com"><i class="fas fa-envelope" aria-hidden="true"></i><span>Contact</span></a>
                 </div>
-                <button class="theme-toggle" id="theme-toggle" type="button" aria-label="Switch to light theme" title="Switch theme" accesskey="s">
+                <button class="theme-toggle" id="theme-toggle" type="button" aria-label="Switch to light theme" title="Switch theme">
                     <i class="fas fa-sun" aria-hidden="true"></i>
                     <span data-theme-label>Light</span>
                 </button>
             </div>
         </nav>
     </header>
+    <p class="visually-hidden" id="easter-egg-status" role="status" aria-live="polite"></p>
 
-    <main id="top">
-        <section class="hero section-shell">
+    <main id="main-content" tabindex="-1">
+        <section class="hero section-shell" aria-labelledby="hero-title">
             <div class="hero-copy">
                 <p class="eyebrow">AI Developer and Researcher</p>
-                <h1>Agam Chopra, Ph.D.</h1>
+                <h1 id="hero-title">Agam Chopra, Ph.D.</h1>
                 <p class="hero-summary">
                     AI researcher and production engineer working across multimodal learning, computer vision, medical imaging, generative models, and applied AI systems.
                 </p>
-                <div class="contact-row" aria-label="Contact and profile links">
+                <nav class="contact-row" aria-label="Contact and profile links">
                     <a class="button primary" href="mailto:work.agamchopra@gmail.com">
                         <i class="fas fa-paper-plane" aria-hidden="true"></i>
                         Email
@@ -64,10 +68,13 @@
                         <i class="fas fa-graduation-cap" aria-hidden="true"></i>
                         Scholar
                     </a>
-                </div>
+                </nav>
             </div>
-            <aside class="hero-panel" aria-label="Profile summary">
-                <img src="agam_1.png" alt="Portrait of Agam Chopra" class="profile-image">
+            <aside class="hero-panel" aria-label="Profile summary" data-glass="panel">
+                <div class="profile-frame">
+                    <img src="agam_1.png" alt="Portrait of Agam Chopra" class="profile-image" width="460" height="460" fetchpriority="high">
+                    <span class="profile-glint" aria-hidden="true"></span>
+                </div>
                 <div class="profile-meta">
                     <span>Eligible to work in the United States</span>
                     <span>Biomedical AI and Computer Vision</span>
@@ -76,29 +83,29 @@
             </aside>
         </section>
 
-        <section class="metrics section-shell" aria-label="Career highlights">
-            <div>
+        <ul class="metrics section-shell" aria-label="Career highlights" data-glass="panel">
+            <li>
                 <strong>6+ years</strong>
                 <span>AI research and engineering</span>
-            </div>
-            <div data-scholar-card>
+            </li>
+            <li data-scholar-card>
                 <strong>h-index <span data-scholar-h-index>5</span></strong>
                 <span><span data-scholar-citations>143</span> citations <span data-scholar-updated>as of May 13, 2026</span></span>
-            </div>
-            <div>
+            </li>
+            <li>
                 <strong>2 awards</strong>
                 <span>Competitive AI imaging research grants</span>
-            </div>
-            <div>
+            </li>
+            <li>
                 <strong>BraTS</strong>
                 <span>Top challenge placements, 2022–2024</span>
-            </div>
-        </section>
+            </li>
+        </ul>
 
-        <section id="experience" class="section-shell split-section">
+        <section id="experience" class="section-shell split-section" aria-labelledby="experience-title">
             <div class="section-intro">
                 <p class="eyebrow">Experience</p>
-                <h2>Research depth with production engineering range.</h2>
+                <h2 id="experience-title">Research depth with production engineering range.</h2>
             </div>
             <div class="timeline">
                 <article class="timeline-item">
@@ -182,10 +189,10 @@
             </div>
         </section>
 
-        <section class="section-shell split-section education-section">
+        <section id="education" class="section-shell split-section education-section" aria-labelledby="education-title">
             <div class="section-intro">
                 <p class="eyebrow">Education</p>
-                <h2>Biomedical AI, machine learning, and physics training.</h2>
+                <h2 id="education-title">Biomedical AI, machine learning, and physics training.</h2>
             </div>
             <div class="education-grid">
                 <article>
@@ -207,10 +214,10 @@
             </div>
         </section>
 
-        <section id="publications" class="section-shell split-section">
+        <section id="publications" class="section-shell split-section" aria-labelledby="publications-title">
             <div class="section-intro">
                 <p class="eyebrow">Research Publications</p>
-                <h2>Peer-reviewed research publications and academic preprints.</h2>
+                <h2 id="publications-title">Peer-reviewed research publications and academic preprints.</h2>
             </div>
             <ol class="publication-list">
                 <li>
@@ -252,27 +259,67 @@
             </ol>
         </section>
 
-        <section id="skills" class="section-shell skills-section">
+        <section id="skills" class="section-shell skills-section" aria-labelledby="skills-title">
             <div class="section-intro">
                 <p class="eyebrow">Technical Skills</p>
-                <h2>Tools and strengths.</h2>
+                <h2 id="skills-title">Tools and strengths.</h2>
             </div>
             <div class="skill-groups">
                 <article>
                     <h3>Languages</h3>
-                    <p>Python, C, C++, SQL, JavaScript, TypeScript, MATLAB</p>
+                    <ul class="skill-chips">
+                        <li>Python</li>
+                        <li>C</li>
+                        <li>C++</li>
+                        <li>SQL</li>
+                        <li>JavaScript</li>
+                        <li>TypeScript</li>
+                        <li>MATLAB</li>
+                    </ul>
                 </article>
                 <article>
                     <h3>ML / AI</h3>
-                    <p>PyTorch, CUDA, Transformers, LLMs, VLMs, Latent Diffusion, Reinforcement Learning, Computer Vision, Multimodal Learning, Medical Imaging, Self-supervised Learning, Synthesis, Classification</p>
+                    <ul class="skill-chips">
+                        <li>PyTorch</li>
+                        <li>CUDA</li>
+                        <li>Transformers</li>
+                        <li>LLMs</li>
+                        <li>VLMs</li>
+                        <li>Latent Diffusion</li>
+                        <li>Reinforcement Learning</li>
+                        <li>Computer Vision</li>
+                        <li>Multimodal Learning</li>
+                        <li>Medical Imaging</li>
+                        <li>Self-supervised Learning</li>
+                        <li>Synthesis</li>
+                        <li>Classification</li>
+                    </ul>
                 </article>
                 <article>
                     <h3>Systems</h3>
-                    <p>Linux, Git, LaTeX, Docker, Singularity, Azure, HPC, MLOps, Data Pipelines, Experimentation Frameworks</p>
+                    <ul class="skill-chips">
+                        <li>Linux</li>
+                        <li>Git</li>
+                        <li>LaTeX</li>
+                        <li>Docker</li>
+                        <li>Singularity</li>
+                        <li>Azure</li>
+                        <li>HPC</li>
+                        <li>MLOps</li>
+                        <li>Data Pipelines</li>
+                        <li>Experimentation Frameworks</li>
+                    </ul>
                 </article>
                 <article>
                     <h3>Strengths</h3>
-                    <p>AI research, model development, production engineering, open-source tooling, technical mentoring, cross-functional collaboration</p>
+                    <ul class="skill-chips">
+                        <li>AI research</li>
+                        <li>Model development</li>
+                        <li>Production engineering</li>
+                        <li>Open-source tooling</li>
+                        <li>Technical mentoring</li>
+                        <li>Cross-functional collaboration</li>
+                    </ul>
                 </article>
             </div>
         </section>
