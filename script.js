@@ -28,7 +28,7 @@ function setTheme(theme, { animate = false } = {}) {
     }
 
     if (themeColor) {
-        themeColor.content = isDark ? "#07111f" : "#edf4ff";
+        themeColor.content = isDark ? "#020713" : "#e8f2f8";
     }
 
     if (themeToggle) {
