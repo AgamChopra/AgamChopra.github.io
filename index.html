@@ -1,11 +1,14 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="dark">
+<html lang="en" data-theme="light">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <meta name="description" content="Agam Chopra, Ph.D. - AI/ML researcher and developer specializing in multimodal learning, generative AI, computer vision, scalable deep learning, and biologically inspired learning algorithms.">
-    <meta name="theme-color" id="theme-color" content="#07111f">
+    <meta name="theme-color" id="theme-color" content="#e8f2f8">
     <title>Agam Chopra, Ph.D. | AI Developer and Researcher</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500;1,600&amp;family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&amp;family=Parisienne&amp;display=swap" rel="stylesheet">
     <link rel="preconnect" href="https://cdnjs.cloudflare.com">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <script>
@@ -15,10 +18,11 @@
                 document.documentElement.dataset.theme = storedTheme;
             }
         } catch (error) {
-            document.documentElement.dataset.theme = "dark";
+            document.documentElement.dataset.theme = "light";
         }
     </script>
     <link rel="stylesheet" href="style.css">
+    <script src="glass.js" defer></script>
     <script src="script.js" defer></script>
 </head>
 <body id="top">
@@ -34,9 +38,9 @@
                     <a href="#skills"><i class="fas fa-code" aria-hidden="true"></i><span>Skills</span></a>
                     <a href="mailto:work.agamchopra@gmail.com"><i class="fas fa-envelope" aria-hidden="true"></i><span>Contact</span></a>
                 </div>
-                <button class="theme-toggle" id="theme-toggle" type="button" aria-label="Switch to light theme" title="Switch theme">
-                    <i class="fas fa-sun" aria-hidden="true"></i>
-                    <span data-theme-label>Light</span>
+                <button class="theme-toggle" id="theme-toggle" type="button" aria-label="Switch to dark theme" title="Switch theme">
+                    <i class="fas fa-moon" aria-hidden="true"></i>
+                    <span data-theme-label>Dark</span>
                 </button>
             </div>
         </nav>
@@ -47,7 +51,10 @@
         <section class="hero section-shell" aria-labelledby="hero-title">
             <div class="hero-copy">
                 <p class="eyebrow">AI Developer and Researcher</p>
-                <h2 id="hero-title">Agam Chopra, Ph.D.</h2>
+                <h1 id="hero-title">
+                    <span class="hero-name">Agam Chopra</span>
+                    <span class="hero-degree">Ph.D.</span>
+                </h1>
                 <p class="hero-summary">
                     I am an AI/ML researcher and developer specializing in multimodal learning, generative AI, computer vision, and scalable deep learning systems, with experience spanning biomedical imaging, representation learning, and applied AI. My future research focuses on developing <strong>biologically inspired, gradient-free ANN learning algorithms</strong> modeled on principles of brain development and learning.
                 </p>

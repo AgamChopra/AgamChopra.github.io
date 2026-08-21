@@ -4,7 +4,6 @@ const year = document.getElementById("current-year");
 const themeToggle = document.getElementById("theme-toggle");
 const themeColor = document.getElementById("theme-color");
 const siteHeader = document.querySelector(".site-header");
-const navShell = document.querySelector(".nav-shell");
 const scholarStatsPath = "scholar-stats.json";
 const reducedMotionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
 const finePointerQuery = window.matchMedia("(hover: hover) and (pointer: fine)");
@@ -14,7 +13,7 @@ if (year) {
 }
 
 function setTheme(theme, { animate = false } = {}) {
-    const nextTheme = theme === "light" ? "light" : "dark";
+    const nextTheme = theme === "dark" ? "dark" : "light";
     const isDark = nextTheme === "dark";
     const icon = themeToggle?.querySelector("i");
     const label = themeToggle?.querySelector("[data-theme-label]");
@@ -108,8 +107,6 @@ loadScholarStats();
 
 function initScrollChrome() {
     let frame = 0;
-    let lastScrollY = Math.max(0, window.scrollY);
-    let settleTimer = 0;
 
     function updateChrome() {
         frame = 0;
@@ -117,24 +114,8 @@ function initScrollChrome() {
         const scrollY = Math.max(0, window.scrollY);
         const scrollRange = Math.max(1, document.documentElement.scrollHeight - window.innerHeight);
         const progress = Math.min(1, scrollY / scrollRange);
-        const velocity = scrollY - lastScrollY;
 
         root.style.setProperty("--scroll-progress", progress.toFixed(4));
-        siteHeader?.classList.toggle("is-condensed", scrollY > 28);
-
-        if (navShell && !reducedMotionQuery.matches) {
-            const momentum = Math.min(Math.abs(velocity) / 900, 0.025);
-            navShell.style.setProperty("--nav-scale-x", (1 + momentum).toFixed(4));
-            navShell.style.setProperty("--nav-scale-y", (1 - momentum * 0.72).toFixed(4));
-
-            window.clearTimeout(settleTimer);
-            settleTimer = window.setTimeout(() => {
-                navShell.style.setProperty("--nav-scale-x", "1");
-                navShell.style.setProperty("--nav-scale-y", "1");
-            }, 90);
-        }
-
-        lastScrollY = scrollY;
     }
 
     function requestUpdate() {
