@@ -72,6 +72,10 @@ function formatStatsDate(value) {
 }
 
 async function loadScholarStats() {
+    // File previews retain the dated HTML snapshot; browsers such as Chromium
+    // prohibit fetch() of sibling file URLs. HTTP previews still load live JSON.
+    if (location.protocol === "file:") return;
+
     const hIndex = document.querySelector("[data-scholar-h-index]");
     const citations = document.querySelector("[data-scholar-citations]");
     const updated = document.querySelector("[data-scholar-updated]");
@@ -168,7 +172,7 @@ function initActiveNavigation() {
 function initRevealMotion() {
     const revealTargets = Array.from(
         document.querySelectorAll(
-            ".hero-copy, .hero-panel, .metrics, .section-intro, .timeline-item, .education-grid article, .publication-list li, .skill-groups article"
+            ".hero-copy, .hero-panel, .metrics-glass-root, .section-intro, .timeline-item, .education-grid article, .publication-list > li, .skill-groups article"
         )
     );
 
@@ -215,7 +219,7 @@ function initMomentumInteractions() {
     );
     const motionSurfaces = Array.from(
         document.querySelectorAll(
-            ".hero-panel, .metrics > li, .timeline-item, .education-grid article, .publication-list li, .skill-groups article"
+            ".hero-panel, .metrics > li, .timeline-item, .education-grid article, .publication-list > li, .skill-groups article"
         )
     );
     const cleanupTimers = new WeakMap();
@@ -327,32 +331,7 @@ function initMomentumInteractions() {
         surface.addEventListener("pointerleave", () => resetSurface(surface));
     });
 
-    let ambientFrame = 0;
-    let ambientX = 0;
-    let ambientY = 0;
 
-    window.addEventListener(
-        "pointermove",
-        (event) => {
-            if (!finePointerQuery.matches || reducedMotionQuery.matches) {
-                return;
-            }
-
-            ambientX = (event.clientX / window.innerWidth - 0.5) * 18;
-            ambientY = (event.clientY / window.innerHeight - 0.5) * 14;
-
-            if (!ambientFrame) {
-                ambientFrame = window.requestAnimationFrame(() => {
-                    ambientFrame = 0;
-                    body.style.setProperty("--ambient-x", `${ambientX.toFixed(2)}px`);
-                    body.style.setProperty("--ambient-y", `${ambientY.toFixed(2)}px`);
-                    body.style.setProperty("--ambient-x-opposite", `${(-ambientX * 0.7).toFixed(2)}px`);
-                    body.style.setProperty("--ambient-y-opposite", `${(-ambientY * 0.7).toFixed(2)}px`);
-                });
-            }
-        },
-        { passive: true }
-    );
 }
 
 function initTopEasterEgg() {

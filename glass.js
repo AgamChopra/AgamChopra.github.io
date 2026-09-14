@@ -1,479 +1,329 @@
 (() => {
-    "use strict";
+"use strict";
+const { vertexShaderSource, fragmentShaderSource, SoftwareGlass } = window.PortfolioGlass;
 
-    const root = document.documentElement;
-    const surfaceSelector = [
-        ".hero-copy",
-        ".hero-panel",
-        ".metrics",
-        ".metrics > li",
-        ".section-intro",
-        ".timeline-item",
-        ".education-grid article",
-        ".publication-list li",
-        ".skill-groups article",
-    ].join(", ");
-
-    const transparencyQuery = window.matchMedia("(prefers-reduced-transparency: reduce)");
-    const contrastQuery = window.matchMedia("(prefers-contrast: more)");
-    const forcedColorsQuery = window.matchMedia("(forced-colors: active)");
-
-    if (transparencyQuery.matches || contrastQuery.matches || forcedColorsQuery.matches) {
-        return;
-    }
-
-    const stage = document.createElement("canvas");
-    const source = document.createElement("canvas");
-    const sourceContext = source.getContext("2d");
-    const gl = stage.getContext("webgl", {
-        alpha: false,
-        antialias: false,
-        depth: false,
-        premultipliedAlpha: false,
-        preserveDrawingBuffer: false,
-        stencil: false,
-    });
-
-    if (!gl || !sourceContext) {
-        return;
-    }
-
-    stage.className = "shader-glass-stage";
-    stage.setAttribute("aria-hidden", "true");
-
-    const vertexSource = `
-        attribute vec2 position;
-
-        void main() {
-            gl_Position = vec4(position, 0.0, 1.0);
-        }
-    `;
-
-    /*
-     * The material constants and 9x9 sampling kernel below are retained from
-     * the supplied example. uPanel only maps that lens to each DOM rectangle.
-     */
-    const fragmentSource = `
-        precision mediump float;
-
-        uniform vec3 iResolution;
-        uniform float iTime;
-        uniform vec4 uPanel;
-        uniform float uRenderMode;
-        uniform sampler2D iChannel0;
-
-        void mainImage(out vec4 fragColor, in vec2 fragCoord) {
-            const float NUM_ZERO = 0.0;
-            const float NUM_ONE = 1.0;
-            const float NUM_HALF = 0.5;
-            const float NUM_TWO = 2.0;
-            const float POWER_EXPONENT = 6.0;
-            const float MASK_MULTIPLIER_1 = 10000.0;
-            const float MASK_MULTIPLIER_2 = 9500.0;
-            const float MASK_MULTIPLIER_3 = 11000.0;
-            const float LENS_MULTIPLIER = 5000.0;
-            const float MASK_STRENGTH_1 = 8.0;
-            const float MASK_STRENGTH_2 = 16.0;
-            const float MASK_STRENGTH_3 = 2.0;
-            const float MASK_THRESHOLD_1 = 0.95;
-            const float MASK_THRESHOLD_2 = 0.9;
-            const float MASK_THRESHOLD_3 = 1.5;
-            const float SAMPLE_RANGE = 4.0;
-            const float SAMPLE_OFFSET = 0.5;
-            const float GRADIENT_RANGE = 0.2;
-            const float GRADIENT_OFFSET = 0.1;
-            const float GRADIENT_EXTREME = -1000.0;
-            const float LIGHTING_INTENSITY = 0.3;
-            const float PANEL_NORMALIZATION = 0.21544347;
-
-            vec2 uv = fragCoord / iResolution.xy;
-
-            if (uRenderMode < NUM_HALF) {
-                fragColor = texture2D(iChannel0, uv);
+/* One WebGL context serves DOM-local canvases, preserving browser stacking,
+ * sticky panels and accessible text. No screenshots or external runtime.
+ * Only visible surfaces redraw, and idle pages schedule no animation frames.
+ */
+const root = document.documentElement;
+const landscape = document.querySelector(".landscape");
+const preferences = [
+    "(prefers-reduced-transparency: reduce)",
+    "(prefers-contrast: more)",
+    "(forced-colors: active)",
+].map((query) => matchMedia(query));
+const selector = [
+    "[data-liquid-glass]", ".metrics-glass-root", ".section-intro", ".timeline-item",
+    ".education-grid > article", ".publication-list > li", ".skill-groups > article",
+    ".site-footer",
+].join(",");
+const records = [...document.querySelectorAll(selector)].map((element) => {
+    element.classList.add("glass-surface");
+    const canvas = document.createElement("canvas");
+    canvas.className = "glass-texture";
+    canvas.setAttribute("aria-hidden", "true");
+    const rim = document.createElement("span");
+    rim.className = "glass-rim";
+    rim.setAttribute("aria-hidden", "true");
+    element.prepend(canvas, rim);
+    return { element, canvas, context: canvas.getContext("2d"), visible: false, dirty: true };
+});
+const buffer = document.createElement("canvas");
+let backend = "webgl";
+let software;
+// Local-file images have opaque origins in some browsers. Loading the
+// existing image bytes as data URLs allows both WebGL and Canvas 2D sampling.
+// HTTP pages never download the embedded asset.
+const localScenesReady = location.protocol === "file:"
+    ? new Promise((resolve, reject) => {
+        const script = document.createElement("script");
+        script.src = "assets/backgrounds/local-scenes.js?v=20260914-standalone";
+        script.onload = () => {
+            const scenes = window.PortfolioGlass.localScenes;
+            if (!scenes?.light || !scenes?.dark) {
+                reject(new Error("Local preview backgrounds are missing"));
                 return;
             }
-
-            vec2 panelCenterPx = uPanel.xy + uPanel.zw * NUM_HALF;
-            vec2 halfSize = uPanel.zw * NUM_HALF;
-            float minimumHalfSize = max(NUM_ONE, min(halfSize.x, halfSize.y));
-            float cornerRadius = min(
-                clamp(min(uPanel.z, uPanel.w) * 0.055, 16.0, 26.0),
-                minimumHalfSize - NUM_ONE
-            );
-            vec2 roundedRectOffset = abs(fragCoord - panelCenterPx) - (halfSize - vec2(cornerRadius));
-            float signedDistance = length(max(roundedRectOffset, vec2(NUM_ZERO))) +
-                min(max(roundedRectOffset.x, roundedRectOffset.y), NUM_ZERO) - cornerRadius;
-            float edgeProgress = clamp(NUM_ONE + signedDistance / minimumHalfSize, NUM_ZERO, NUM_ONE);
-            float roundedBox = pow(edgeProgress, POWER_EXPONENT) / MASK_MULTIPLIER_1;
-            vec2 localUv = (fragCoord - uPanel.xy) / uPanel.zw;
-            vec2 m2 = ((localUv - NUM_HALF) * NUM_TWO) * PANEL_NORMALIZATION;
-            float rb1 = clamp((NUM_ONE - roundedBox * MASK_MULTIPLIER_1) * MASK_STRENGTH_1, NUM_ZERO, NUM_ONE);
-            float rb2 = clamp((MASK_THRESHOLD_1 - roundedBox * MASK_MULTIPLIER_2) * MASK_STRENGTH_2, NUM_ZERO, NUM_ONE) -
-                clamp((MASK_THRESHOLD_2 - roundedBox * MASK_MULTIPLIER_2) * MASK_STRENGTH_2, NUM_ZERO, NUM_ONE);
-            float rb3 = clamp((MASK_THRESHOLD_3 - roundedBox * MASK_MULTIPLIER_3) * MASK_STRENGTH_3, NUM_ZERO, NUM_ONE) -
-                clamp((NUM_ONE - roundedBox * MASK_MULTIPLIER_3) * MASK_STRENGTH_3, NUM_ZERO, NUM_ONE);
-
-            fragColor = vec4(NUM_ZERO);
-            float transition = smoothstep(NUM_ZERO, NUM_ONE, rb1 + rb2);
-
-            if (transition > NUM_ZERO) {
-                vec2 panelCenter = (uPanel.xy + uPanel.zw * NUM_HALF) / iResolution.xy;
-                vec2 lens = ((uv - panelCenter) * NUM_ONE * (NUM_ONE - roundedBox * LENS_MULTIPLIER) + panelCenter);
-                float total = NUM_ZERO;
-
-                for (float x = -SAMPLE_RANGE; x <= SAMPLE_RANGE; x++) {
-                    for (float y = -SAMPLE_RANGE; y <= SAMPLE_RANGE; y++) {
-                        vec2 offset = vec2(x, y) * SAMPLE_OFFSET / iResolution.xy;
-                        fragColor += texture2D(iChannel0, offset + lens);
-                        total += NUM_ONE;
-                    }
-                }
-
-                fragColor /= total;
-
-                float gradient = clamp((clamp(m2.y, NUM_ZERO, GRADIENT_RANGE) + GRADIENT_OFFSET) / NUM_TWO, NUM_ZERO, NUM_ONE) +
-                    clamp((clamp(-m2.y, GRADIENT_EXTREME, GRADIENT_RANGE) * rb3 + GRADIENT_OFFSET) / NUM_TWO, NUM_ZERO, NUM_ONE);
-                vec4 lighting = clamp(fragColor + vec4(rb1) * gradient + vec4(rb2) * LIGHTING_INTENSITY, NUM_ZERO, NUM_ONE);
-
-                fragColor = mix(texture2D(iChannel0, uv), lighting, transition);
-            } else {
-                discard;
+            for (const theme of ["light", "dark"]) {
+                const image = document.querySelector(`.landscape-${theme}`);
+                image.removeAttribute("srcset");
+                image.src = scenes[theme];
             }
-        }
+            resolve();
+        };
+        script.onerror = () => reject(new Error("Unable to load local preview backgrounds"));
+        document.head.append(script);
+    })
+    : Promise.resolve();
+let gl;
+let program;
+let texture;
+let uniforms;
+let sourceImage;
+let frame = 0;
+let lastRender = 0;
+let motionUntil = 0;
+let imageGeneration = 0;
+let failed = false;
 
-        void main() {
-            mainImage(gl_FragColor, gl_FragCoord.xy);
-        }
-    `;
-
-    function createShader(type, shaderSource) {
-        const shader = gl.createShader(type);
-
-        if (!shader) {
-            return null;
-        }
-
-        gl.shaderSource(shader, shaderSource);
-        gl.compileShader(shader);
-
-        if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
-            console.warn("Unable to compile the liquid-glass shader:", gl.getShaderInfoLog(shader));
-            gl.deleteShader(shader);
-            return null;
-        }
-
-        return shader;
+function allowed() {
+    return !failed && !preferences.some((query) => query.matches);
+}
+function fallback(error) {
+    records.forEach(({ element, canvas }) => {
+        element.classList.remove("glass-ready");
+        canvas.hidden = true;
+    });
+    root.dataset.glass = "fallback";
+    if (error) console.warn("Liquid glass: using CSS fallback.", error);
+}
+function compile(source, type) {
+    const shader = gl.createShader(type);
+    gl.shaderSource(shader, source);
+    gl.compileShader(shader);
+    if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
+        const message = gl.getShaderInfoLog(shader);
+        gl.deleteShader(shader);
+        throw new Error(message);
     }
-
-    const vertexShader = createShader(gl.VERTEX_SHADER, vertexSource);
-    const fragmentShader = createShader(gl.FRAGMENT_SHADER, fragmentSource);
-
-    if (!vertexShader || !fragmentShader) {
-        return;
-    }
-
-    const program = gl.createProgram();
-
-    if (!program) {
-        return;
-    }
-
-    gl.attachShader(program, vertexShader);
-    gl.attachShader(program, fragmentShader);
+    return shader;
+}
+function initialize() {
+    gl = buffer.getContext("webgl", {
+        alpha: true, antialias: false, depth: false, stencil: false,
+        premultipliedAlpha: false, preserveDrawingBuffer: true,
+    });
+    if (!gl) throw new Error("WebGL unavailable");
+    const vertex = compile(vertexShaderSource, gl.VERTEX_SHADER);
+    const fragment = compile(fragmentShaderSource, gl.FRAGMENT_SHADER);
+    program = gl.createProgram();
+    gl.attachShader(program, vertex);
+    gl.attachShader(program, fragment);
     gl.linkProgram(program);
-
+    gl.deleteShader(vertex);
+    gl.deleteShader(fragment);
     if (!gl.getProgramParameter(program, gl.LINK_STATUS)) {
-        console.warn("Unable to link the liquid-glass shader:", gl.getProgramInfoLog(program));
-        gl.deleteProgram(program);
-        return;
+        throw new Error(gl.getProgramInfoLog(program));
     }
-
     gl.useProgram(program);
-    gl.deleteShader(vertexShader);
-    gl.deleteShader(fragmentShader);
-
-    const buffer = gl.createBuffer();
-    const texture = gl.createTexture();
-
-    if (!buffer || !texture) {
-        return;
-    }
-
-    gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
-    gl.bufferData(
-        gl.ARRAY_BUFFER,
-        new Float32Array([-1, -1, 1, -1, -1, 1, 1, 1]),
-        gl.STATIC_DRAW
-    );
-
-    const position = gl.getAttribLocation(program, "position");
-    const uniforms = {
-        resolution: gl.getUniformLocation(program, "iResolution"),
-        time: gl.getUniformLocation(program, "iTime"),
-        panel: gl.getUniformLocation(program, "uPanel"),
-        renderMode: gl.getUniformLocation(program, "uRenderMode"),
-        texture: gl.getUniformLocation(program, "iChannel0"),
-    };
-
-    const requiredUniforms = [
-        uniforms.resolution,
-        uniforms.panel,
-        uniforms.renderMode,
-        uniforms.texture,
-    ];
-
-    if (position < 0 || requiredUniforms.some((location) => location === null)) {
-        return;
-    }
-
+    const vertices = gl.createBuffer();
+    gl.bindBuffer(gl.ARRAY_BUFFER, vertices);
+    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1, -1, 1, -1, -1, 1, 1, 1]), gl.STATIC_DRAW);
+    const position = gl.getAttribLocation(program, "a_position");
     gl.enableVertexAttribArray(position);
     gl.vertexAttribPointer(position, 2, gl.FLOAT, false, 0, 0);
+    uniforms = Object.fromEntries([
+        "image", "size", "origin", "imageSize", "imageOrigin", "radius",
+        "edge", "refraction", "chromatic", "frost", "tint",
+    ].map((name) => [name, gl.getUniformLocation(program, `u_${name}`)]));
+    texture = gl.createTexture();
     gl.bindTexture(gl.TEXTURE_2D, texture);
-    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
-    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
     gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
     gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
-    gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, true);
-    gl.disable(gl.BLEND);
-    gl.disable(gl.DEPTH_TEST);
-
-    document.body.prepend(stage);
-    const surfaces = Array.from(document.querySelectorAll(surfaceSelector));
-    const startTime = performance.now();
-    let renderFrame = 0;
-    let sourceNeedsUpdate = true;
-    let contextLost = false;
-
-    function cssColor(styles, property, fallback) {
-        return styles.getPropertyValue(property).trim() || fallback;
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR_MIPMAP_LINEAR);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
+    gl.uniform1i(uniforms.image, 0);
+}
+async function loadTheme() {
+    const generation = ++imageGeneration;
+    sourceImage = null;
+    fallback(); // Never show a stale landscape while the new theme decodes.
+    if (!allowed()) return;
+    const theme = root.dataset.theme === "dark" ? "dark" : "light";
+    const nextImage = document.querySelector(`.landscape-${theme}`);
+    try {
+        await localScenesReady;
+        if (generation !== imageGeneration || !allowed()) return;
+        await nextImage.decode();
+        if (generation !== imageGeneration || !allowed()) return;
+        if (backend === "webgl") {
+            try {
+                if (!gl) initialize();
+                // WebGL 1 needs power-of-two dimensions for mipmaps. Filtering
+                // across these levels prevents aliasing where the lens heavily
+                // compresses trees, stars and other fine background details.
+                // The UV-to-viewport mapping restores the image's aspect ratio.
+                const textureSource = document.createElement("canvas");
+                const limit = Math.min(2048, gl.getParameter(gl.MAX_TEXTURE_SIZE));
+                textureSource.width = Math.min(limit, 2 ** Math.ceil(Math.log2(nextImage.naturalWidth)));
+                textureSource.height = Math.min(limit, 2 ** Math.ceil(Math.log2(nextImage.naturalHeight)));
+                const textureContext = textureSource.getContext("2d");
+                if (!textureContext) throw new Error("Unable to prepare glass texture");
+                textureContext.drawImage(nextImage, 0, 0, textureSource.width, textureSource.height);
+                gl.bindTexture(gl.TEXTURE_2D, texture);
+                gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, false);
+                gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, textureSource);
+                gl.generateMipmap(gl.TEXTURE_2D);
+                if (gl.getError() !== gl.NO_ERROR) throw new Error("WebGL texture upload failed");
+            } catch (error) {
+                console.info("Liquid glass: switching to software refraction.", error.message);
+                backend = "canvas";
+            }
+        }
+        if (backend === "canvas") {
+            const nextSoftware = new SoftwareGlass(nextImage);
+            if (generation !== imageGeneration || !allowed()) return;
+            software = nextSoftware;
+        }
+        sourceImage = nextImage;
+        invalidate();
+    } catch (error) {
+        if (generation === imageGeneration) fallback(error);
     }
-
-    function drawEllipticalGlow(context, width, height, x, y, radiusX, radiusY, color) {
-        context.save();
-        context.translate(width * x, height * y);
-        context.scale(width * radiusX, height * radiusY);
-
-        const gradient = context.createRadialGradient(0, 0, 0, 0, 0, 1);
-        gradient.addColorStop(0, color);
-        gradient.addColorStop(1, "rgba(0, 0, 0, 0)");
-        context.fillStyle = gradient;
-        context.fillRect(-1, -1, 2, 2);
-        context.restore();
+}
+function invalidate() {
+    records.forEach((record) => { record.dirty = true; });
+    schedule();
+}
+function schedule() {
+    if (!frame && allowed() && sourceImage && !document.hidden) {
+        frame = requestAnimationFrame(render);
     }
-
-    function drawAuroraLine(context, width, height, color, points) {
-        context.save();
-        context.beginPath();
-        context.moveTo(points[0] * width, points[1] * height);
-        context.bezierCurveTo(
-            points[2] * width,
-            points[3] * height,
-            points[4] * width,
-            points[5] * height,
-            points[6] * width,
-            points[7] * height
-        );
-        context.strokeStyle = color;
-        context.lineCap = "round";
-        context.lineWidth = 5;
-        context.globalAlpha = 0.28;
-        context.shadowColor = color;
-        context.shadowBlur = 18;
-        context.stroke();
-
-        context.globalAlpha = 0.82;
-        context.lineWidth = 1.15;
-        context.shadowBlur = 7;
-        context.strokeStyle = "rgba(248, 254, 255, 0.86)";
-        context.stroke();
-        context.restore();
-    }
-
-    function drawAuroraSource() {
-        const width = source.width;
-        const height = source.height;
-        const styles = getComputedStyle(root);
-        const isDark = root.dataset.theme !== "light";
-        const colors = {
-            base: cssColor(styles, "--bg", "#020713"),
-            cyan: cssColor(styles, "--aurora-cyan", "rgba(18, 220, 255, 0.74)"),
-            green: cssColor(styles, "--aurora-green", "rgba(82, 255, 145, 0.6)"),
-            yellow: cssColor(styles, "--aurora-yellow", "rgba(255, 222, 79, 0.5)"),
-            pink: cssColor(styles, "--aurora-pink", "rgba(255, 54, 179, 0.66)"),
-            violet: cssColor(styles, "--aurora-violet", "rgba(127, 79, 255, 0.72)"),
-            blue: cssColor(styles, "--aurora-blue", "rgba(31, 91, 255, 0.62)"),
+}
+function render(now) {
+    frame = 0;
+    if (!allowed() || !sourceImage || document.hidden) return;
+    // Bound scroll and transition rendering to 30 fps.
+    if (now - lastRender < (backend === "canvas" ? 64 : 32)) { schedule(); return; }
+    lastRender = now;
+    const moving = now < motionUntil;
+    const viewport = landscape.getBoundingClientRect();
+    const imageScale = Math.max(viewport.width / sourceImage.naturalWidth, viewport.height / sourceImage.naturalHeight);
+    const imageWidth = sourceImage.naturalWidth * imageScale;
+    const imageHeight = sourceImage.naturalHeight * imageScale;
+    const dark = root.dataset.theme === "dark";
+    const jobs = records.filter((record) => record.visible && (record.dirty || moving) && record.context)
+        .map((record) => ({ record, rect: record.element.getBoundingClientRect() }))
+        .filter(({ rect }) => rect.width > 0 && rect.height > 0 && rect.bottom > 0 && rect.top < innerHeight);
+    if (!jobs.length) { if (moving) schedule(); return; }
+    try {
+        const sizes = jobs.map(({ record }) => {
+            const width = record.element.clientWidth;
+            const height = record.element.clientHeight;
+            const scale = Math.min(devicePixelRatio || 1, backend === "canvas" ? 1 : 1.5,
+                Math.sqrt((backend === "canvas" ? 120000 : 600000) / Math.max(1, width * height)));
+            return { width, height, w: Math.max(1, Math.round(width * scale)), h: Math.max(1, Math.round(height * scale)) };
+        });
+        const scene = {
+            width: imageWidth, height: imageHeight,
+            x: viewport.left + (viewport.width - imageWidth) / 2,
+            y: viewport.top + (viewport.height - imageHeight) / 2,
         };
-
-        sourceContext.setTransform(1, 0, 0, 1, 0, 0);
-        sourceContext.globalAlpha = 1;
-        sourceContext.globalCompositeOperation = "source-over";
-        sourceContext.fillStyle = colors.base;
-        sourceContext.fillRect(0, 0, width, height);
-        sourceContext.globalCompositeOperation = isDark ? "screen" : "source-over";
-
-        drawEllipticalGlow(sourceContext, width, height, 0.03, 0.09, 0.58, 0.44, colors.cyan);
-        drawEllipticalGlow(sourceContext, width, height, 0.94, 0.12, 0.54, 0.42, colors.violet);
-        drawEllipticalGlow(sourceContext, width, height, 0.18, 0.91, 0.52, 0.48, colors.green);
-        drawEllipticalGlow(sourceContext, width, height, 0.88, 0.88, 0.48, 0.43, colors.pink);
-        drawEllipticalGlow(sourceContext, width, height, 0.52, 0.52, 0.42, 0.35, colors.yellow);
-        drawEllipticalGlow(sourceContext, width, height, 0.56, 0.2, 0.46, 0.38, colors.blue);
-
-        sourceContext.globalCompositeOperation = isDark ? "screen" : "multiply";
-        drawAuroraLine(sourceContext, width, height, colors.cyan, [-0.08, 0.19, 0.25, -0.03, 0.7, 0.45, 1.08, 0.1]);
-        drawAuroraLine(sourceContext, width, height, colors.violet, [-0.08, 0.47, 0.28, 0.14, 0.68, 0.72, 1.08, 0.34]);
-        drawAuroraLine(sourceContext, width, height, colors.pink, [-0.08, 0.73, 0.31, 0.38, 0.68, 0.98, 1.08, 0.57]);
-        drawAuroraLine(sourceContext, width, height, colors.green, [-0.08, 0.94, 0.3, 0.63, 0.73, 1.08, 1.08, 0.78]);
-
-        gl.bindTexture(gl.TEXTURE_2D, texture);
-        gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, source);
-        sourceNeedsUpdate = false;
-    }
-
-    function resizeCanvas() {
-        const width = Math.max(1, Math.round(window.innerWidth));
-        const height = Math.max(1, Math.round(window.innerHeight));
-
-        if (stage.width === width && stage.height === height) {
-            return false;
+        if (backend === "webgl") {
+            const maxWidth = Math.max(...sizes.map(({ w }) => w));
+            const maxHeight = Math.max(...sizes.map(({ h }) => h));
+            if (buffer.width < maxWidth) buffer.width = maxWidth;
+            if (buffer.height < maxHeight) buffer.height = maxHeight;
+            gl.uniform2f(uniforms.imageSize, imageWidth, imageHeight);
+            gl.uniform2f(uniforms.imageOrigin, scene.x, scene.y);
         }
-
-        stage.width = width;
-        stage.height = height;
-        source.width = width;
-        source.height = height;
-        sourceNeedsUpdate = true;
-        return true;
-    }
-
-    function drawScene() {
-        renderFrame = 0;
-
-        if (contextLost || document.hidden) {
-            return;
-        }
-
-        resizeCanvas();
-
-        if (sourceNeedsUpdate) {
-            drawAuroraSource();
-        }
-
-        const width = stage.width;
-        const height = stage.height;
-        const elapsed = (performance.now() - startTime) / 1000;
-
-        gl.viewport(0, 0, width, height);
-        gl.disable(gl.SCISSOR_TEST);
-        gl.useProgram(program);
-        gl.uniform3f(uniforms.resolution, width, height, 1);
-        gl.uniform1f(uniforms.time, elapsed);
-        gl.uniform1f(uniforms.renderMode, 0);
-        gl.uniform4f(uniforms.panel, 0, 0, width, height);
-        gl.activeTexture(gl.TEXTURE0);
-        gl.bindTexture(gl.TEXTURE_2D, texture);
-        gl.uniform1i(uniforms.texture, 0);
-        gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
-
-        gl.enable(gl.SCISSOR_TEST);
-        gl.uniform1f(uniforms.renderMode, 1);
-        root.classList.add("shader-glass-enabled");
-
-        surfaces.forEach((surface) => {
-            const rect = surface.getBoundingClientRect();
-
-            if (
-                rect.width < 2 ||
-                rect.height < 2 ||
-                rect.right <= 0 ||
-                rect.left >= width ||
-                rect.bottom <= 0 ||
-                rect.top >= height
-            ) {
-                return;
+        jobs.forEach(({ record, rect }, index) => {
+            const { element, canvas, context } = record;
+            const { width, height, w, h } = sizes[index];
+            const style = getComputedStyle(element);
+            const radius = Math.max(0, Math.min(parseFloat(style.borderTopLeftRadius) || 0, width / 2, height / 2) - 1);
+            // CSS is the single source for panel-specific material settings;
+            // its blur/tint also supplies the non-WebGL fallback.
+            const parameter = (name, fallback, maximum) => {
+                const value = Number.parseFloat(style.getPropertyValue(`--glass-${name}`));
+                return Number.isFinite(value) ? Math.min(maximum, Math.max(0, value)) : fallback;
+            };
+            const material = {
+                radius,
+                edge: Math.max(1, Math.min(parameter("thickness", 34, 80), width / 2, height / 2)),
+                refraction: parameter("refraction", 68, 140),
+                chromatic: parameter("chromatic", 12, 30),
+                frost: parameter("frost", 14, 30),
+                opacity: parameter("opacity", 0.76, 1),
+            };
+            const origin = { x: rect.left + element.clientLeft, y: rect.top + element.clientTop };
+            if (backend === "canvas") {
+                software.render(record, sizes[index], material, scene, origin, dark);
+            } else {
+                gl.viewport(0, 0, w, h);
+                gl.clear(gl.COLOR_BUFFER_BIT);
+                gl.uniform2f(uniforms.size, width, height);
+                gl.uniform2f(uniforms.origin, origin.x, origin.y);
+                gl.uniform1f(uniforms.radius, material.radius);
+                gl.uniform1f(uniforms.edge, material.edge);
+                gl.uniform1f(uniforms.refraction, material.refraction);
+                gl.uniform1f(uniforms.chromatic, material.chromatic);
+                gl.uniform1f(uniforms.frost, material.frost);
+                gl.uniform4f(uniforms.tint, ...(dark ? [0.025, 0.068, 0.105, material.opacity] : [0.97, 0.988, 1, material.opacity]));
+                gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
+                if (canvas.width !== w) canvas.width = w;
+                if (canvas.height !== h) canvas.height = h;
+                context.clearRect(0, 0, w, h);
+                context.drawImage(buffer, 0, buffer.height - h, w, h, 0, 0, w, h);
             }
-
-            const left = rect.left;
-            const bottom = height - rect.bottom;
-            const panelWidth = Math.max(1, rect.width);
-            const panelHeight = Math.max(1, rect.height);
-            const scissorLeft = Math.max(0, Math.floor(left));
-            const scissorBottom = Math.max(0, Math.floor(bottom));
-            const scissorRight = Math.min(width, Math.ceil(left + panelWidth));
-            const scissorTop = Math.min(height, Math.ceil(bottom + panelHeight));
-
-            if (scissorRight <= scissorLeft || scissorTop <= scissorBottom) {
-                return;
-            }
-
-            gl.scissor(
-                scissorLeft,
-                scissorBottom,
-                scissorRight - scissorLeft,
-                scissorTop - scissorBottom
-            );
-            gl.uniform4f(uniforms.panel, left, bottom, panelWidth, panelHeight);
-            gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
+            canvas.hidden = false;
+            element.classList.add("glass-ready");
+            record.dirty = false;
         });
-
-        gl.disable(gl.SCISSOR_TEST);
-    }
-
-    function requestScene({ refreshSource = false } = {}) {
-        if (contextLost) {
-            return;
-        }
-
-        sourceNeedsUpdate ||= refreshSource;
-
-        if (!renderFrame) {
-            renderFrame = window.requestAnimationFrame(drawScene);
+        root.dataset.glass = backend;
+    } catch (error) {
+        if (backend === "webgl") {
+            backend = "canvas";
+            loadTheme();
+        } else {
+            failed = true;
+            fallback(error);
         }
     }
-
-    const resizeObserver = "ResizeObserver" in window
-        ? new ResizeObserver(() => requestScene())
-        : null;
-
-    surfaces.forEach((surface) => resizeObserver?.observe(surface));
-
-    const themeObserver = new MutationObserver(() => requestScene({ refreshSource: true }));
-    themeObserver.observe(root, { attributes: true, attributeFilter: ["data-theme"] });
-
-    function disableShaderGlass() {
-        contextLost = true;
-
-        if (renderFrame) {
-            window.cancelAnimationFrame(renderFrame);
-            renderFrame = 0;
+    if (moving) schedule();
+}
+const recordByElement = new Map(records.map((record) => [record.element, record]));
+const visibilityObserver = new IntersectionObserver((entries) => {
+    entries.forEach(({ target, isIntersecting }) => {
+        const record = recordByElement.get(target);
+        record.visible = isIntersecting;
+        record.dirty = true;
+        if (!isIntersecting) {
+            // Release offscreen backing stores on long pages.
+            record.canvas.width = record.canvas.height = 1;
+            record.softwareMap = record.softwareOutput = record.softwareKey = null;
+            record.element.classList.remove("glass-ready");
         }
-
-        resizeObserver?.disconnect();
-        themeObserver.disconnect();
-        root.classList.remove("shader-glass-enabled");
-        stage.remove();
+    });
+    schedule();
+}, { rootMargin: "80px" });
+const resizeObserver = new ResizeObserver(invalidate);
+records.forEach(({ element }) => {
+    visibilityObserver.observe(element);
+    resizeObserver.observe(element);
+});
+addEventListener("scroll", invalidate, { passive: true });
+addEventListener("resize", invalidate, { passive: true });
+window.visualViewport?.addEventListener("resize", invalidate, { passive: true });
+document.addEventListener("transitionrun", (event) => {
+    if (["translate", "transform", "opacity"].includes(event.propertyName) && event.target.matches(".glass-surface, .metrics-glass-root")) {
+        motionUntil = performance.now() + 1000;
+        invalidate();
     }
+});
+document.addEventListener("visibilitychange", () => {
+    if (document.hidden) { cancelAnimationFrame(frame); frame = 0; }
+    else invalidate();
+});
+addEventListener("pagehide", () => { cancelAnimationFrame(frame); frame = 0; });
+addEventListener("pageshow", invalidate);
+new MutationObserver(loadTheme).observe(root, { attributes: true, attributeFilter: ["data-theme"] });
+preferences.forEach((query) => query.addEventListener("change", loadTheme));
+document.querySelectorAll(".landscape-image").forEach((image) => image.addEventListener("load", () => {
+    if (image.classList.contains(`landscape-${root.dataset.theme}`)) loadTheme();
+}));
+buffer.addEventListener("webglcontextlost", (event) => {
+    event.preventDefault();
+    backend = "canvas";
+    loadTheme();
+});
+buffer.addEventListener("webglcontextrestored", () => {
+    gl = null;
+    backend = "webgl";
+    failed = false;
+    loadTheme();
+});
+loadTheme();
 
-    window.addEventListener("scroll", () => requestScene(), { passive: true });
-    window.addEventListener("resize", () => requestScene({ refreshSource: true }), { passive: true });
-    window.addEventListener("orientationchange", () => requestScene({ refreshSource: true }), { passive: true });
-    document.addEventListener("visibilitychange", () => {
-        if (!document.hidden) {
-            requestScene({ refreshSource: true });
-        }
-    });
-
-    stage.addEventListener("webglcontextlost", () => {
-        disableShaderGlass();
-    });
-
-    [transparencyQuery, contrastQuery, forcedColorsQuery].forEach((query) => {
-        query.addEventListener?.("change", (event) => {
-            if (event.matches) {
-                disableShaderGlass();
-            }
-        });
-    });
-
-    document.fonts?.ready.then(() => requestScene());
-    requestScene({ refreshSource: true });
 })();

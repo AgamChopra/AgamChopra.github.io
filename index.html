@@ -21,22 +21,28 @@
             document.documentElement.dataset.theme = "light";
         }
     </script>
-    <link rel="stylesheet" href="style.css">
-    <script src="glass.js" defer></script>
+    <link rel="stylesheet" href="style.css?v=20260914-standalone">
+    <script src="glass-shaders.js?v=20260914-standalone" defer></script>
+    <script src="glass-software.js?v=20260914-standalone" defer></script>
+    <script src="glass.js?v=20260914-standalone" defer></script>
     <script src="script.js" defer></script>
 </head>
 <body id="top">
+    <div class="landscape" aria-hidden="true">
+        <img class="landscape-image landscape-light" src="assets/backgrounds/alpine-light.webp" srcset="assets/backgrounds/alpine-light-small.webp 960w, assets/backgrounds/alpine-light.webp 1536w" sizes="(max-aspect-ratio: 3/2) 150vh, 100vw" alt="" width="1536" height="1024" fetchpriority="high" decoding="async">
+        <img class="landscape-image landscape-dark" src="assets/backgrounds/alpine-dark.webp" srcset="assets/backgrounds/alpine-dark-small.webp 960w, assets/backgrounds/alpine-dark.webp 1536w" sizes="(max-aspect-ratio: 3/2) 150vh, 100vw" alt="" width="1536" height="1024" decoding="async">
+    </div>
     <a class="skip-link" href="#main-content">Skip to content</a>
     <header class="site-header">
         <div class="scroll-progress" aria-hidden="true"><span></span></div>
-        <nav class="nav-shell" aria-label="Main navigation" data-glass="chrome">
+        <nav class="nav-shell" aria-label="Main navigation" data-liquid-glass="chrome">
             <a class="brand" href="#top" aria-label="Agam Chopra home" data-easter-egg-trigger>AC</a>
             <div class="nav-actions">
                 <div class="nav-links">
-                    <a href="#experience"><i class="fas fa-briefcase" aria-hidden="true"></i><span>Experience</span></a>
-                    <a href="#publications"><i class="fas fa-book-open" aria-hidden="true"></i><span>Publications</span></a>
-                    <a href="#skills"><i class="fas fa-code" aria-hidden="true"></i><span>Skills</span></a>
-                    <a href="mailto:work.agamchopra@gmail.com"><i class="fas fa-envelope" aria-hidden="true"></i><span>Contact</span></a>
+                    <a href="#experience" aria-label="Experience"><i class="fas fa-briefcase" aria-hidden="true"></i><span>Experience</span></a>
+                    <a href="#publications" aria-label="Publications"><i class="fas fa-book-open" aria-hidden="true"></i><span>Publications</span></a>
+                    <a href="#skills" aria-label="Skills"><i class="fas fa-code" aria-hidden="true"></i><span>Skills</span></a>
+                    <a href="mailto:work.agamchopra@gmail.com" aria-label="Contact"><i class="fas fa-envelope" aria-hidden="true"></i><span>Contact</span></a>
                 </div>
                 <button class="theme-toggle" id="theme-toggle" type="button" aria-label="Switch to dark theme" title="Switch theme">
                     <i class="fas fa-moon" aria-hidden="true"></i>
@@ -49,7 +55,7 @@
 
     <main id="main-content" tabindex="-1">
         <section class="hero section-shell" aria-labelledby="hero-title">
-            <div class="hero-copy">
+            <div class="hero-copy" data-liquid-glass="regular">
                 <p class="eyebrow">AI Developer and Researcher</p>
                 <h1 id="hero-title">
                     <span class="hero-name">Agam Chopra</span>
@@ -77,7 +83,7 @@
                     </a>
                 </nav>
             </div>
-            <aside class="hero-panel" aria-label="Profile summary" data-glass="panel">
+            <aside class="hero-panel" aria-label="Profile summary" data-liquid-glass="regular">
                 <div class="profile-frame">
                     <img src="agam_1.png" alt="Portrait of Agam Chopra" class="profile-image" width="460" height="460" fetchpriority="high">
                     <span class="profile-glint" aria-hidden="true"></span>
@@ -90,24 +96,18 @@
             </aside>
         </section>
 
-        <ul class="metrics section-shell" aria-label="Career highlights" data-glass="panel">
-            <li>
-                <strong>6+ years</strong>
-                <span>AI research and engineering</span>
-            </li>
-            <li data-scholar-card>
-                <strong>h-index <span data-scholar-h-index>5</span></strong>
-                <span><span data-scholar-citations>143</span> citations <span data-scholar-updated>as of May 13, 2026</span></span>
-            </li>
-            <li>
-                <strong>2 awards</strong>
-                <span>Competitive AI imaging research grants</span>
-            </li>
-            <li>
-                <strong>BraTS</strong>
-                <span>Top challenge placements, 2022–2024</span>
-            </li>
-        </ul>
+        <div class="metrics-glass-root section-shell">
+            <ul class="metrics" aria-label="Career highlights">
+                <li>
+                    <strong>6+ years</strong>
+                    <span>AI research and engineering</span>
+                </li>
+                <li data-scholar-card>
+                    <strong>h-index <span data-scholar-h-index>5</span></strong>
+                    <span><span data-scholar-citations>143</span> citations <span data-scholar-updated>as of May 13, 2026</span></span>
+                </li>
+            </ul>
+        </div>
 
         <section id="experience" class="section-shell split-section" aria-labelledby="experience-title">
             <div class="section-intro">
