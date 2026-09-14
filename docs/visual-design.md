@@ -26,11 +26,11 @@ Adapted from [prabinpebam/liquid-glass](https://github.com/prabinpebam/liquid-gl
 
 Source references: js/shaders.js (rounded-box SDF, quadratic edge refraction, RGB dispersion, frosting, offset inner shadows/glow), js/reflections.js (gradient perimeter reflections). The inspected revision has no license file; no license grant is inferred here.
 
-The local glass-shaders.js adapts the shader to a single landscape texture and arbitrary DOM surface dimensions. It uses boundary normals instead of a direction from the rectangle center, a broad smooth curved bevel, and a 5×5 binomial-weighted frosting kernel. Corner radii exceed the optical rim width to keep refraction continuous around corners. Mipmapped, power-of-two WebGL textures reduce aliasing where the lens compresses fine landscape details. The outer lens has almost no tint or frosting, making the background bending visible; tint and frost return toward the readable interior. Red, green and blue follow separate refraction paths within each edge frost sample, as in the upstream renderer; separation fades smoothly to zero toward the panel center. CSS implements the perimeter reflection with a masked conic gradient.
+The local glass-shaders.js adapts the shader to a single landscape texture and arbitrary DOM surface dimensions. It uses boundary normals instead of a direction from the rectangle center, a broad smooth curved bevel, and an optional 5×5 binomial-weighted frosting kernel. Corner radii exceed the optical rim width to keep refraction continuous around corners. Mipmapped, power-of-two WebGL textures reduce aliasing where the lens compresses fine landscape details. All panels now use zero frosting and zero tint, keeping the scenery clear throughout the glass. Red, green and blue follow separate refraction paths, as in the upstream renderer; separation fades smoothly to zero toward the panel center. CSS implements the perimeter reflection with a masked conic gradient.
 
 The demo's interactive editor, image upload controls, grid, and perpetual render behavior are omitted. glass.js uses one shared WebGL context and copies each visible lens to its own decorative 2D canvas; page text and controls remain normal HTML. This preserves clipping, sticky positioning, focus, selection, and stacking. Nested controls use CSS glass so they do not incorrectly replace their parent panel with the landscape.
 
-Refraction samples the landscape, not arbitrary DOM content behind an overlapping panel. If WebGL cannot initialize, upload its texture, or continue rendering, the site switches to a Canvas 2D refraction renderer. That renderer retains curved edge displacement, RGB separation, and per-panel frosting; it does not require CSS/SVG backdrop-filter support. A tinted CSS material is the final fallback if image loading or Canvas pixel access is unavailable. Reduced transparency, increased contrast, and forced colors disable the renderer. Reduced motion disables the site's motion through its existing CSS and interaction preferences.
+Refraction samples the landscape, not arbitrary DOM content behind an overlapping panel. If WebGL cannot initialize, upload its texture, or continue rendering, the site switches to a Canvas 2D refraction renderer. That renderer retains curved edge displacement and RGB separation, using the same clear material settings; it does not require CSS/SVG backdrop-filter support. CSS surfaces are the final fallback if image loading or Canvas pixel access is unavailable. Reduced transparency, increased contrast, and forced colors disable the renderer. Reduced motion disables the site's motion through its existing CSS and interaction preferences.
 
 Render work is event-driven. WebGL has a 30 fps scheduling cap during scrolling/reveals, a 600,000-pixel per-surface cap, and a maximum 1.5 device-pixel ratio. Software refraction has a 15 fps scheduling cap and 120,000 pixels per surface; actual frame rate depends on the device. Its lens maps and separably blurred texture levels are cached, and its scene texture is limited to 1024 pixels wide. Offscreen canvases release their backing stores and software lens maps. Theme updates discard stale image decodes, and WebGL context loss switches to software refraction; restoration reinitializes GPU resources. The shared WebGL buffer preserves its contents until each surface copy is complete. There is no glass CDN dependency.
 
@@ -53,15 +53,15 @@ The CSS variables `--glass-thickness`, `--glass-refraction`, `--glass-chromatic`
 
 | Panel | Edge width | Refraction | RGB separation | Frost | Tint |
 | --- | ---: | ---: | ---: | ---: | ---: |
-| Navigation | 25 | 56 | 12 | 3 | 0.64 |
-| Profile | 52 | 100 | 12 | 2 | 0.46 |
-| Hero text | 48 | 86 | 10 | 18 | 0.76 |
-| Section headings | 38 | 76 | 10 | 8 | 0.70 |
-| Metrics | 34 | 70 | 12 | 6 | 0.70 |
-| Experience, education, publications, skills | 34 | 68 | 9 | 14 | 0.76 |
-| Footer | 26 | 54 | 10 | 4 | 0.70 |
+| Navigation | 25 | 56 | 12 | 0 | 0 |
+| Profile | 52 | 100 | 12 | 0 | 0 |
+| Hero text | 48 | 86 | 10 | 0 | 0 |
+| Section headings | 38 | 76 | 10 | 0 | 0 |
+| Metrics | 34 | 70 | 12 | 0 | 0 |
+| Experience, education, publications, skills | 34 | 68 | 9 | 0 | 0 |
+| Footer | 26 | 54 | 10 | 0 | 0 |
 
-Panel presets apply in both themes. Text remains normal HTML; color separation only affects the background at glass boundaries.
+Panel presets apply in both themes. Frost and tint inherit a shared zero default, including the software renderer. Nested metric tiles are also transparent. Text remains normal HTML with a localized contrasting shadow for legibility over the clear scenery; color separation only affects the background at glass boundaries.
 
 Optics validation: rendered the actual shader against a synthetic grayscale texture and checked that enabling refraction changes edge pixels but not center pixels; enabling chromatic aberration separates edge RGB values but leaves center channels equal; and increasing frost reduces interior fine-detail contrast. Also inspected the updated light/dark screenshots.
 

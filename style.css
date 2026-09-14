@@ -22,8 +22,9 @@
     --glass-thickness: 34;
     --glass-refraction: 68;
     --glass-chromatic: 9;
-    --glass-frost: 14;
-    --glass-opacity: 0.76;
+    --glass-frost: 0;
+    --glass-opacity: 0;
+    --glass-text-shadow: 0 1px 2px rgba(0, 8, 18, 0.95), 0 0 6px rgba(0, 8, 18, 0.8);
     --engraved-shadow: 0 1px 2px rgba(0, 2, 8, 0.38);
     --engraved-strong-shadow: 0 2px 22px rgba(0, 3, 10, 0.46);
     --accent: #63d9ff;
@@ -71,6 +72,7 @@
     --glass-edge-soft: rgba(255, 255, 255, 0.5);
     --glass-edge-dark: rgba(40, 69, 98, 0.24);
     --glass-caustic: rgba(255, 255, 255, 0.28);
+    --glass-text-shadow: 0 1px 2px rgba(255, 255, 255, 0.96), 0 0 6px rgba(255, 255, 255, 0.85);
     --engraved-shadow: 0 1px 1px rgba(255, 255, 255, 0.6);
     --engraved-strong-shadow: 0 1px 1px rgba(255, 255, 255, 0.72);
     --accent: #0077ed;
@@ -1034,21 +1036,17 @@ main {
     transform: translateY(-2px) scale(1.025);
 }
 
-/* Glass material: wide clear lenses around readable frosted interiors. */
+/* Clear glass throughout; panel presets change only the curved edge optics. */
 .nav-shell {
     --glass-thickness: 25;
     --glass-refraction: 56;
     --glass-chromatic: 12;
-    --glass-frost: 3;
-    --glass-opacity: 0.64;
 }
 
 .hero-panel {
     --glass-thickness: 52;
     --glass-refraction: 100;
     --glass-chromatic: 12;
-    --glass-frost: 2;
-    --glass-opacity: 0.46;
     border-radius: 38px;
 }
 
@@ -1056,32 +1054,24 @@ main {
     --glass-thickness: 48;
     --glass-refraction: 86;
     --glass-chromatic: 10;
-    --glass-frost: 18;
-    --glass-opacity: 0.76;
 }
 
 .section-intro {
     --glass-thickness: 38;
     --glass-refraction: 76;
     --glass-chromatic: 10;
-    --glass-frost: 8;
-    --glass-opacity: 0.7;
 }
 
 .metrics-glass-root {
     --glass-thickness: 34;
     --glass-refraction: 70;
     --glass-chromatic: 12;
-    --glass-frost: 6;
-    --glass-opacity: 0.7;
 }
 
 .site-footer {
     --glass-thickness: 26;
     --glass-refraction: 54;
     --glass-chromatic: 10;
-    --glass-frost: 4;
-    --glass-opacity: 0.7;
 }
 
 .hero-copy,
@@ -1114,7 +1104,8 @@ main {
         inset 0 -1px 0 var(--glass-edge-soft);
     -webkit-backdrop-filter: blur(calc(var(--glass-frost) * 0.5px)) saturate(115%);
     backdrop-filter: blur(calc(var(--glass-frost) * 0.5px)) saturate(115%);
-    text-shadow: none;
+    /* Keep letter edges legible over detailed scenery without filling the panel. */
+    text-shadow: var(--glass-text-shadow);
 }
 
 .hero-copy::before,
@@ -1135,7 +1126,7 @@ main {
 .metrics { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 .metrics > li,
 .metrics > li:nth-of-type(2) {
-    background: color-mix(in srgb, var(--glass-control) 50%, transparent);
+    background: transparent;
     box-shadow: inset 0 1px 0 var(--glass-edge-soft);
 }
 

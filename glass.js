@@ -234,8 +234,8 @@ function render(now) {
                 edge: Math.max(1, Math.min(parameter("thickness", 34, 80), width / 2, height / 2)),
                 refraction: parameter("refraction", 68, 140),
                 chromatic: parameter("chromatic", 12, 30),
-                frost: parameter("frost", 14, 30),
-                opacity: parameter("opacity", 0.76, 1),
+                frost: parameter("frost", 0, 30),
+                opacity: parameter("opacity", 0, 1),
             };
             const origin = { x: rect.left + element.clientLeft, y: rect.top + element.clientTop };
             if (backend === "canvas") {
